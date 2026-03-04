@@ -39,7 +39,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **VAULT-01**: Agent recommends vaulting when external card estimated value >= configurable threshold OR matches user identity goals OR user has enough cards to batch ship
 - [x] **VAULT-02**: Vault recommendation includes "unlocks" reasons: instant liquidity (buyback/list), trade into packs, verified portfolio ranking
 - [x] **VAULT-03**: Batching prompt triggers when user has >= N external cards or total external value >= X, recommending BUNDLE_SHIP action
-- [ ] **VAULT-04**: User can create shipment intent (stub execution with action logging)
+- [x] **VAULT-04**: User can create shipment intent (stub execution with action logging)
 
 ### Collector Identity
 
@@ -63,12 +63,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### API
 
-- [ ] **API-01**: POST /agent/card/analyze endpoint returns CardAnalysis JSON
-- [ ] **API-02**: POST /agent/portfolio/summary endpoint returns PortfolioSummary JSON
-- [ ] **API-03**: POST /agent/archetype endpoint returns CollectorArchetype JSON
+- [x] **API-01**: POST /agent/card/analyze endpoint returns CardAnalysis JSON
+- [x] **API-02**: POST /agent/portfolio/summary endpoint returns PortfolioSummary JSON
+- [x] **API-03**: POST /agent/archetype endpoint returns CollectorArchetype JSON
 - [x] **API-04**: POST /external-cards endpoint for creating/uploading external cards
-- [ ] **API-05**: POST /vault/shipments endpoint for creating shipment intent
-- [ ] **API-06**: POST /actions/execute endpoint (stub execution, logs action)
+- [x] **API-05**: POST /vault/shipments endpoint for creating shipment intent
+- [x] **API-06**: POST /actions/execute endpoint (stub execution, logs action)
 - [ ] **API-07**: Structured logs with request IDs on all endpoints
 
 ### Observability
@@ -147,16 +147,16 @@ Deferred to future release. Tracked but not in current roadmap.
 | EXTC-01 | Phase 4 | Complete |
 | EXTC-02 | Phase 4 | Complete |
 | EXTC-03 | Phase 4 | Complete |
-| VAULT-04 | Phase 4 | Pending |
+| VAULT-04 | Phase 4 | Complete |
 | IDENT-01 | Phase 4 | Complete |
 | IDENT-02 | Phase 4 | Complete |
 | IDENT-03 | Phase 4 | Complete |
-| API-01 | Phase 4 | Pending |
-| API-02 | Phase 4 | Pending |
-| API-03 | Phase 4 | Pending |
+| API-01 | Phase 4 | Complete |
+| API-02 | Phase 4 | Complete |
+| API-03 | Phase 4 | Complete |
 | API-04 | Phase 4 | Complete |
-| API-05 | Phase 4 | Pending |
-| API-06 | Phase 4 | Pending |
+| API-05 | Phase 4 | Complete |
+| API-06 | Phase 4 | Complete |
 | API-07 | Phase 5 | Pending |
 | OBS-01 | Phase 5 | Pending |
 | OBS-02 | Phase 5 | Pending |

@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation** - Monorepo scaffold, Zod schemas, Prisma data model, and seed data (completed 2026-03-04)
 - [x] **Phase 2: Rules Engine** - Deterministic card action eligibility and vault conversion logic (no LLM) (completed 2026-03-04)
 - [x] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety (completed 2026-03-04)
-- [ ] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity
+- [x] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity (completed 2026-03-04)
 - [ ] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests
 
 ## Phase Details
@@ -83,7 +83,7 @@ Plans:
   4. A user can upload an external card via `POST /external-cards` (title, set, grade, cert number, estimated value) and it immediately appears in the portfolio view with read-only intelligence (analysis but no Gacha economy actions)
   5. `POST /agent/archetype` returns CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges — as exportable JSON with short text
   6. `POST /vault/shipments` creates a shipment intent stub and logs the action; `POST /actions/execute` logs the executed action with card state
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 Plans:
 - [ ] 04-01-PLAN.md — Card analysis orchestrator (TDD) with single-card and batch/pack-pull flows
@@ -115,7 +115,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
-| 4. Agent Orchestrators and API | 4/5 | In Progress|  |
+| 4. Agent Orchestrators and API | 5/5 | Complete   | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
 
 ---
