@@ -36,9 +36,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Vault Conversion
 
-- [ ] **VAULT-01**: Agent recommends vaulting when external card estimated value >= configurable threshold OR matches user identity goals OR user has enough cards to batch ship
-- [ ] **VAULT-02**: Vault recommendation includes "unlocks" reasons: instant liquidity (buyback/list), trade into packs, verified portfolio ranking
-- [ ] **VAULT-03**: Batching prompt triggers when user has >= N external cards or total external value >= X, recommending BUNDLE_SHIP action
+- [x] **VAULT-01**: Agent recommends vaulting when external card estimated value >= configurable threshold OR matches user identity goals OR user has enough cards to batch ship
+- [x] **VAULT-02**: Vault recommendation includes "unlocks" reasons: instant liquidity (buyback/list), trade into packs, verified portfolio ranking
+- [x] **VAULT-03**: Batching prompt triggers when user has >= N external cards or total external value >= X, recommending BUNDLE_SHIP action
 - [ ] **VAULT-04**: User can create shipment intent (stub execution with action logging)
 
 ### Collector Identity
@@ -129,9 +129,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | RULE-01 | Phase 2 | Complete |
 | RULE-02 | Phase 2 | Complete |
 | RULE-03 | Phase 2 | Complete |
-| VAULT-01 | Phase 2 | Pending |
-| VAULT-02 | Phase 2 | Pending |
-| VAULT-03 | Phase 2 | Pending |
+| VAULT-01 | Phase 2 | Complete |
+| VAULT-02 | Phase 2 | Complete |
+| VAULT-03 | Phase 2 | Complete |
 | LLM-01 | Phase 3 | Pending |
 | LLM-02 | Phase 3 | Pending |
 | LLM-03 | Phase 3 | Pending |

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-03-04T13:07:50.985Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-03-04T13:08:19.889Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
@@ -56,6 +56,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P04 | 5 | 2 tasks | 2 files |
 | Phase 02 P01 | 2 | 2 tasks | 6 files |
 | Phase 02-rules-engine P02 | 2 | 1 tasks | 9 files |
+| Phase 02-rules-engine P03 | 2 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -83,6 +84,9 @@ Recent decisions affecting current work:
 - [Phase 02-rules-engine]: BUYBACK hidden for NO_DATA (not suppressed with disclaimer) — no price means no buyback basis; null estimatedValue treated identically
 - [Phase 02-rules-engine]: STALE_7D adds risk_notes to BUYBACK and LIST but does not suppress — user retains agency with price-staleness warning
 - [Phase 02-rules-engine]: batchEligible=false at per-card level for SHIP_TO_VAULT — batch logic lives exclusively in computeVaultConversionCandidates
+- [Phase 02-rules-engine]: Compute isBatchEligible before single-card loop so batchEligible flag is accurate on each SHIP_TO_VAULT action
+- [Phase 02-rules-engine]: computeIdentityVaultTrigger stub always returns false — Phase 4 activation point
+- [Phase 02-rules-engine]: estimatedSavings formula: (cardCount - 1) * bundleShipSavingsPerCard — stub per Research open question
 
 ### Pending Todos
 
@@ -97,6 +101,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T13:07:50.983Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-03-04T13:08:19.886Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
