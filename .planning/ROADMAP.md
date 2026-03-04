@@ -48,7 +48,12 @@ Plans:
   3. `computeVaultConversionCandidates(cards)` returns SHIP_TO_VAULT recommendations when an external card value meets the configurable threshold or when batch shipping conditions are met
   4. A vault recommendation response always includes the "unlocks" reasons (instant liquidity, trade into packs, verified portfolio ranking)
   5. Rules engine unit tests cover all card states × all action types and pass with zero failures
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Test infrastructure, type contracts, state dispatcher, and shared WATCHLIST builder
+- [ ] 02-02-PLAN.md — Per-card action eligibility for all 4 states (TDD)
+- [ ] 02-03-PLAN.md — Vault conversion candidates with single-card and batch thresholds (TDD)
 
 ### Phase 3: LLM Layer
 **Goal**: A reliable LLM client abstracts provider differences, validates all outputs against Zod schemas with retry-and-feedback logic, scrubs compliance-violating language, and serves versioned prompt templates — with full observability at every failure point
@@ -96,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
-| 2. Rules Engine | 0/TBD | Not started | - |
+| 2. Rules Engine | 0/3 | Planning complete | - |
 | 3. LLM Layer | 0/TBD | Not started | - |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
