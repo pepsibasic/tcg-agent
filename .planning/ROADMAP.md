@@ -12,7 +12,7 @@ Build a rules+LLM hybrid portfolio intelligence service embedded in the Gacha co
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Monorepo scaffold, Zod schemas, Prisma data model, and seed data
+- [x] **Phase 1: Foundation** - Monorepo scaffold, Zod schemas, Prisma data model, and seed data (completed 2026-03-04)
 - [ ] **Phase 2: Rules Engine** - Deterministic card action eligibility and vault conversion logic (no LLM)
 - [ ] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety
 - [ ] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Zod schemas for CardAnalysis, PortfolioSummary, CollectorArchetype, and Action types can be imported from packages/schemas and all LLM-facing fields use z.nullable() (not z.optional())
   4. `pnpm db:seed` populates the local database with cards in all states (vaulted, external, on_market, in_transit) and at least two user scenarios
   5. Turborepo build pipeline respects the schemas -> db -> agent -> api dependency order
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 - [ ] 01-01-PLAN.md — Monorepo scaffold with pnpm + Turborepo + all 4 package skeletons
@@ -95,7 +95,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 3/4 | In Progress|  |
+| 1. Foundation | 4/4 | Complete   | 2026-03-04 |
 | 2. Rules Engine | 0/TBD | Not started | - |
 | 3. LLM Layer | 0/TBD | Not started | - |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
