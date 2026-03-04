@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-03-PLAN.md
-last_updated: "2026-03-04T14:35:29.708Z"
+stopped_at: Completed 04-agent-orchestrators-and-api/04-02-PLAN.md
+last_updated: "2026-03-04T14:35:39.207Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
@@ -108,6 +108,9 @@ Recent decisions affecting current work:
 - [Phase 04-04]: tsconfig exclude pattern for __tests__ dirs added to apps/api/tsconfig.json (same as packages/agent)
 - [Phase 04-agent-orchestrators-and-api]: Badges computed deterministically AFTER LLM call and OVERRIDE LLM output — vault_builder (10+ vaulted), ip_specialist (60%+ one IP), external_collector (5+ external)
 - [Phase 04-agent-orchestrators-and-api]: Below 5 cards returns progress nudge with archetype: null and friendly message — not an error; degraded path badges survive LLM failure
+- [Phase 04-agent-orchestrators-and-api]: externalCards mapped to ipCategory='External' for breakdown grouping — simplest consistent approach
+- [Phase 04-agent-orchestrators-and-api]: Use for-of loops (not .map/.filter) over Prisma findMany results to avoid TS7006 implicit-any in strict mode
+- [Phase 04-agent-orchestrators-and-api]: Degraded orchestrator path returns success:true with degraded:true flag — never throws on LLM failure
 
 ### Pending Todos
 
@@ -122,6 +125,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T14:35:18.777Z
-Stopped at: Completed 04-03-PLAN.md
+Last session: 2026-03-04T14:35:39.204Z
+Stopped at: Completed 04-agent-orchestrators-and-api/04-02-PLAN.md
 Resume file: None

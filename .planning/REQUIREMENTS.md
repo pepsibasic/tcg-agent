@@ -24,9 +24,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Portfolio
 
-- [ ] **PORT-01**: User can view PortfolioSummary with total_value_est, breakdown by IP and language, concentration score, liquidity_score, collector_archetype, missing_set_goals, and recommended_actions
-- [ ] **PORT-02**: Portfolio includes both vaulted and external cards in unified view
-- [ ] **PORT-03**: Portfolio concentration signal identifies over-concentration in single IP/set/player
+- [x] **PORT-01**: User can view PortfolioSummary with total_value_est, breakdown by IP and language, concentration score, liquidity_score, collector_archetype, missing_set_goals, and recommended_actions
+- [x] **PORT-02**: Portfolio includes both vaulted and external cards in unified view
+- [x] **PORT-03**: Portfolio concentration signal identifies over-concentration in single IP/set/player
 
 ### External Cards
 
@@ -141,9 +141,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | CARD-02 | Phase 4 | Complete |
 | CARD-03 | Phase 4 | Complete |
 | CARD-04 | Phase 4 | Complete |
-| PORT-01 | Phase 4 | Pending |
-| PORT-02 | Phase 4 | Pending |
-| PORT-03 | Phase 4 | Pending |
+| PORT-01 | Phase 4 | Complete |
+| PORT-02 | Phase 4 | Complete |
+| PORT-03 | Phase 4 | Complete |
 | EXTC-01 | Phase 4 | Complete |
 | EXTC-02 | Phase 4 | Complete |
 | EXTC-03 | Phase 4 | Complete |
