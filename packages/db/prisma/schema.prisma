@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────
+
+enum CardState {
+  VAULTED
+  EXTERNAL
+  ON_MARKET
+  IN_TRANSIT
+}
+
+enum PriceConfidence {
+  LIVE
+  RECENT_24H
+  STALE_7D
+  NO_DATA
+}
+
+// ─── Models ──────────────────────────────────────────────
+
+model User {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+
+  userCards      UserCard[]
+  externalCards  ExternalCard[]
+  actionsLog     ActionsLog[]
+
+  @@map("users")
+}
+
+model Card {
+  id         String   @id @default(uuid(7)) @db.Uuid
+  name       String
+  ipCategory String
+  setName    String?
+  language   String   @default("en")
+  grade      String?
+  imageUrl   String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  userCards  UserCard[]
+  packCards  PackCard[]
+
+  @@map("cards")
+}
+
+model UserCard {
+  id              String          @id @default(uuid(7)) @db.Uuid
+  userId          String          @db.Uuid
+  cardId          String          @db.Uuid
+  state           CardState
+  estimatedValue  Decimal?        @db.Decimal(10, 2)
+  priceFetchedAt  DateTime?
+  priceConfidence PriceConfidence @default(NO_DATA)
+  certNumber      String?
+  userNotes       String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  deletedAt       DateTime?
+
+  user               User                @relation(fields: [userId], references: [id])
+  card               Card                @relation(fields: [cardId], references: [id])
+  marketplaceListing MarketplaceListing?
+
+  @@index([userId])
+  @@index([state])
+  @@map("user_cards")
+}
+
+model ExternalCard {
+  id              String          @id @default(uuid(7)) @db.Uuid
+  userId          String          @db.Uuid
+  name            String
+  setName         String?
+  grade           String?
+  certNumber      String?
+  estimatedValue  Decimal?        @db.Decimal(10, 2)
+  priceConfidence PriceConfidence @default(NO_DATA)
+  priceFetchedAt  DateTime?
+  userNotes       String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  deletedAt       DateTime?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("external_cards")
+}
+
+model Pack {
+  id         String    @id @default(uuid(7)) @db.Uuid
+  userId     String    @db.Uuid
+  name       String
+  ipCategory String
+  openedAt   DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  packCards PackCard[]
+
+  @@map("packs")
+}
+
+model PackCard {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  packId    String   @db.Uuid
+  cardId    String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  pack Pack @relation(fields: [packId], references: [id])
+  card Card @relation(fields: [cardId], references: [id])
+
+  @@map("pack_cards")
+}
+
+model MarketplaceListing {
+  id         String   @id @default(uuid(7)) @db.Uuid
+  userCardId String   @unique @db.Uuid
+  listPrice  Decimal  @db.Decimal(10, 2)
+  status     String   @default("ACTIVE")
+  listedAt   DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  userCard UserCard @relation(fields: [userCardId], references: [id])
+
+  @@map("marketplace_listings")
+}
+
+model ActionsLog {
+  id               String   @id @default(uuid(7)) @db.Uuid
+  userId           String   @db.Uuid
+  cardId           String?  @db.Uuid
+  agentRecommended Json
+  userAction       String?
+  createdAt        DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("actions_log")
+}

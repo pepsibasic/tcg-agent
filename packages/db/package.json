@@ -6,10 +6,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "typecheck": "tsc --noEmit",
     "seed": "tsx src/seed.ts",
-    "generate": "prisma generate"
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@prisma/client": "^6.0.0",
