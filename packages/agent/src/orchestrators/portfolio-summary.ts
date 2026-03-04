@@ -1,5 +1,4 @@
 import { prisma } from '@tcg/db'
-import type { UserCard, ExternalCard } from '@tcg/db'
 import { PortfolioSummarySchema } from '@tcg/schemas'
 import type { PortfolioSummaryResponse, PriceConfidence } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
@@ -103,25 +102,33 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
   }))
 
   // priceDataAsOf: most recent priceFetchedAt across all cards (ISO string), or null
-  const ucDates = userCards
-    .map((uc: UserCard) => uc.priceFetchedAt)
-    .filter((d: Date | null): d is Date => d !== null)
-  const ecDates = externalCards
-    .map((ec: ExternalCard) => ec.priceFetchedAt)
-    .filter((d: Date | null): d is Date => d !== null)
-  const allDates = [...ucDates, ...ecDates]
+  const allDates: Date[] = []
+  for (const uc of userCards) {
+    if (uc.priceFetchedAt !== null) allDates.push(uc.priceFetchedAt)
+  }
+  for (const ec of externalCards) {
+    if (ec.priceFetchedAt !== null) allDates.push(ec.priceFetchedAt)
+  }
   const priceDataAsOf =
     allDates.length > 0
-      ? new Date(Math.max(...allDates.map((d: Date) => d.getTime()))).toISOString()
+      ? new Date(Math.max(...allDates.map((d) => d.getTime()))).toISOString()
       : null
 
   // priceConfidence: worst across all cards
-  const ucConfidences = userCards.map((uc: UserCard) => uc.priceConfidence as PriceConfidence)
-  const ecConfidences = externalCards.map((ec: ExternalCard) => ec.priceConfidence as PriceConfidence)
-  const overallPriceConfidence = worstPriceConfidence([...ucConfidences, ...ecConfidences])
+  const allConfidences: PriceConfidence[] = []
+  for (const uc of userCards) {
+    allConfidences.push(uc.priceConfidence as PriceConfidence)
+  }
+  for (const ec of externalCards) {
+    allConfidences.push(ec.priceConfidence as PriceConfidence)
+  }
+  const overallPriceConfidence = worstPriceConfidence(allConfidences)
 
   // 3. Render prompt
-  const vaultedCount = userCards.filter((uc: UserCard) => uc.state === 'VAULTED').length
+  let vaultedCount = 0
+  for (const uc of userCards) {
+    if (uc.state === 'VAULTED') vaultedCount++
+  }
   const totalCards = userCards.length + externalCards.length
 
   const { system, user } = renderPrompt('portfolio_summary', {
