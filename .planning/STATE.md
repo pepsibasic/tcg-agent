@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-04T13:17:50.396Z"
+stopped_at: Completed 03-llm-layer-02-PLAN.md
+last_updated: "2026-03-04T13:35:19.563Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
+  total_plans: 10
+  completed_plans: 9
   percent: 0
 ---
 
@@ -57,6 +57,8 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02 P01 | 2 | 2 tasks | 6 files |
 | Phase 02-rules-engine P02 | 2 | 1 tasks | 9 files |
 | Phase 02-rules-engine P03 | 2 | 1 tasks | 4 files |
+| Phase 03-llm-layer P01 | 6 | 2 tasks | 8 files |
+| Phase 03-llm-layer P02 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -87,6 +89,10 @@ Recent decisions affecting current work:
 - [Phase 02-rules-engine]: Compute isBatchEligible before single-card loop so batchEligible flag is accurate on each SHIP_TO_VAULT action
 - [Phase 02-rules-engine]: computeIdentityVaultTrigger stub always returns false — Phase 4 activation point
 - [Phase 02-rules-engine]: estimatedSavings formula: (cardCount - 1) * bundleShipSavingsPerCard — stub per Research open question
+- [Phase 03-llm-layer]: Vercel AI SDK generateObject for provider-agnostic LLM calls — single import handles OpenAI and Anthropic
+- [Phase 03-llm-layer]: Excluded __tests__ dirs from tsconfig build — prevents future-plan stub test files from breaking tsc
+- [Phase 03-llm-layer]: renderPrompt returns { system, user } pair to keep provider abstraction clean for generateStructured
+- [Phase 03-llm-layer]: scrubCompliance accepts explicit narrativeFields list — callers must declare what to scrub, preventing accidental scrubbing of identity_tags or cert numbers
 
 ### Pending Todos
 
@@ -101,6 +107,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T13:17:50.393Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-llm-layer/03-CONTEXT.md
+Last session: 2026-03-04T13:35:19.561Z
+Stopped at: Completed 03-llm-layer-02-PLAN.md
+Resume file: None
