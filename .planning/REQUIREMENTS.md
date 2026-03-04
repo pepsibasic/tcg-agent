@@ -57,7 +57,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **LLM-01**: LLM provider abstraction supporting OpenAI and Anthropic via Vercel AI SDK generateObject with zod schema validation
 - [x] **LLM-02**: Prompt templates for card narrative, portfolio summary, and archetype identity with slot injection
-- [ ] **LLM-03**: Retry with schema-aware error feedback (validation error appended to prompt) and deterministic fallback after max retries
+- [x] **LLM-03**: Retry with schema-aware error feedback (validation error appended to prompt) and deterministic fallback after max retries
 - [x] **LLM-04**: Compliance guard scrubs financial advice language from all LLM outputs — no guarantees of profit, always present uncertainty
 - [x] **LLM-05**: Input sanitization for user-supplied card names and notes before prompt interpolation (prompt injection prevention)
 
@@ -134,7 +134,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | VAULT-03 | Phase 2 | Complete |
 | LLM-01 | Phase 3 | Complete |
 | LLM-02 | Phase 3 | Complete |
-| LLM-03 | Phase 3 | Pending |
+| LLM-03 | Phase 3 | Complete |
 | LLM-04 | Phase 3 | Complete |
 | LLM-05 | Phase 3 | Complete |
 | CARD-01 | Phase 4 | Pending |

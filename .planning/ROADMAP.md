@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Monorepo scaffold, Zod schemas, Prisma data model, and seed data (completed 2026-03-04)
 - [x] **Phase 2: Rules Engine** - Deterministic card action eligibility and vault conversion logic (no LLM) (completed 2026-03-04)
-- [ ] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety
+- [x] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety (completed 2026-03-04)
 - [ ] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity
 - [ ] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests
 
@@ -65,7 +65,7 @@ Plans:
   3. Any LLM output containing financial advice language (profit guarantees, buy/sell/hold directives, price prediction certainty) is detected and replaced by the compliance guard before reaching the API response
   4. User-supplied card names and notes are sanitized and wrapped in XML-delimited context tags before prompt interpolation — raw user strings never appear directly in prompt instructions
   5. Prompt templates for card narrative, portfolio summary, and archetype identity are registered in the prompt store and can be rendered with slot injection
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 03-01-PLAN.md — LLM client abstraction (Vercel AI SDK) + input sanitization
@@ -107,7 +107,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
-| 3. LLM Layer | 2/3 | In Progress|  |
+| 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
 

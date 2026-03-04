@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-llm-layer-02-PLAN.md
-last_updated: "2026-03-04T13:35:19.563Z"
+stopped_at: Completed 03-llm-layer-03-PLAN.md
+last_updated: "2026-03-04T13:38:26.251Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 10
-  completed_plans: 9
+  completed_plans: 10
   percent: 0
 ---
 
@@ -59,6 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-rules-engine P03 | 2 | 1 tasks | 4 files |
 | Phase 03-llm-layer P01 | 6 | 2 tasks | 8 files |
 | Phase 03-llm-layer P02 | 2min | 2 tasks | 4 files |
+| Phase 03-llm-layer P03 | 5 | 1 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,7 @@ Recent decisions affecting current work:
 - [Phase 03-llm-layer]: Excluded __tests__ dirs from tsconfig build — prevents future-plan stub test files from breaking tsc
 - [Phase 03-llm-layer]: renderPrompt returns { system, user } pair to keep provider abstraction clean for generateStructured
 - [Phase 03-llm-layer]: scrubCompliance accepts explicit narrativeFields list — callers must declare what to scrub, preventing accidental scrubbing of identity_tags or cert numbers
+- [Phase 03-llm-layer]: maxAttempts = maxRetries+1 (default 3 total), retry prompt appends truncated 500-char error to preserve full context
 
 ### Pending Todos
 
@@ -107,6 +109,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T13:35:19.561Z
-Stopped at: Completed 03-llm-layer-02-PLAN.md
+Last session: 2026-03-04T13:38:26.248Z
+Stopped at: Completed 03-llm-layer-03-PLAN.md
 Resume file: None
