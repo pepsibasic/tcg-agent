@@ -1,4 +1,5 @@
 import { prisma } from '@tcg/db'
+import type { UserCard, ExternalCard } from '@tcg/db'
 import { PortfolioSummarySchema } from '@tcg/schemas'
 import type { PortfolioSummaryResponse, PriceConfidence } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
@@ -103,24 +104,24 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
 
   // priceDataAsOf: most recent priceFetchedAt across all cards (ISO string), or null
   const ucDates = userCards
-    .map((uc) => uc.priceFetchedAt)
-    .filter((d): d is Date => d !== null)
+    .map((uc: UserCard) => uc.priceFetchedAt)
+    .filter((d: Date | null): d is Date => d !== null)
   const ecDates = externalCards
-    .map((ec) => ec.priceFetchedAt)
-    .filter((d): d is Date => d !== null)
+    .map((ec: ExternalCard) => ec.priceFetchedAt)
+    .filter((d: Date | null): d is Date => d !== null)
   const allDates = [...ucDates, ...ecDates]
   const priceDataAsOf =
     allDates.length > 0
-      ? new Date(Math.max(...allDates.map((d) => d.getTime()))).toISOString()
+      ? new Date(Math.max(...allDates.map((d: Date) => d.getTime()))).toISOString()
       : null
 
   // priceConfidence: worst across all cards
-  const ucConfidences = userCards.map((uc) => uc.priceConfidence as PriceConfidence)
-  const ecConfidences = externalCards.map((ec) => ec.priceConfidence as PriceConfidence)
+  const ucConfidences = userCards.map((uc: UserCard) => uc.priceConfidence as PriceConfidence)
+  const ecConfidences = externalCards.map((ec: ExternalCard) => ec.priceConfidence as PriceConfidence)
   const overallPriceConfidence = worstPriceConfidence([...ucConfidences, ...ecConfidences])
 
   // 3. Render prompt
-  const vaultedCount = userCards.filter((uc) => uc.state === 'VAULTED').length
+  const vaultedCount = userCards.filter((uc: UserCard) => uc.state === 'VAULTED').length
   const totalCards = userCards.length + externalCards.length
 
   const { system, user } = renderPrompt('portfolio_summary', {
