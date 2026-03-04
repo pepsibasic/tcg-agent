@@ -7,6 +7,7 @@ export const CardAnalysisResponseSchema = CardAnalysisSchema.extend({
   actions: z.array(ActionSchema),
   priceConfidence: PriceConfidenceSchema,
   priceFetchedAt: z.union([z.string(), z.null()]),
+  degraded: z.boolean().optional(),
 })
 
 export type CardAnalysisResponse = z.infer<typeof CardAnalysisResponseSchema>
