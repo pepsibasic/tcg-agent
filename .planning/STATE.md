@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 04-04-PLAN.md (external card CRUD routes + PSA cert stub)
-last_updated: "2026-03-04T22:33:00.000Z"
-last_activity: 2026-03-04 — Phase 04 Plan 04 complete — external card routes with 9 tests
+stopped_at: Completed 04-03-PLAN.md
+last_updated: "2026-03-04T14:35:29.708Z"
+last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 15
-  completed_plans: 13
+  completed_plans: 14
   percent: 0
 ---
 
@@ -62,6 +62,8 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-llm-layer P03 | 5 | 1 tasks | 4 files |
 | Phase 04-agent-orchestrators-and-api P01 | 3 | 2 tasks | 5 files |
 | Phase 04-agent-orchestrators-and-api P04 | 3min | 2 tasks | 7 files |
+| Phase 04-agent-orchestrators-and-api P03 | 5 | 2 tasks | 5 files |
+| Phase 04-agent-orchestrators-and-api P02 | 6 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -104,6 +106,8 @@ Recent decisions affecting current work:
 - [Phase 04-04]: PSA cert lookup is a stub returning stored DB grade — clean replacement point for real API integration
 - [Phase 04-04]: Soft-delete for external cards uses deletedAt field (consistent with userCard pattern)
 - [Phase 04-04]: tsconfig exclude pattern for __tests__ dirs added to apps/api/tsconfig.json (same as packages/agent)
+- [Phase 04-agent-orchestrators-and-api]: Badges computed deterministically AFTER LLM call and OVERRIDE LLM output — vault_builder (10+ vaulted), ip_specialist (60%+ one IP), external_collector (5+ external)
+- [Phase 04-agent-orchestrators-and-api]: Below 5 cards returns progress nudge with archetype: null and friendly message — not an error; degraded path badges survive LLM failure
 
 ### Pending Todos
 
@@ -118,6 +122,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T22:33:00.000Z
-Stopped at: Completed 04-04-PLAN.md (external card CRUD routes + PSA cert stub)
-Resume file: .planning/phases/04-agent-orchestrators-and-api/04-05-PLAN.md
+Last session: 2026-03-04T14:35:18.777Z
+Stopped at: Completed 04-03-PLAN.md
+Resume file: None

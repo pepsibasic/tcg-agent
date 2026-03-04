@@ -43,9 +43,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Collector Identity
 
-- [ ] **IDENT-01**: User receives CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges
-- [ ] **IDENT-02**: Archetype inference uses portfolio composition (IP concentration, language spread, rarity distribution, action history)
-- [ ] **IDENT-03**: Shareable collector identity as exportable JSON + short text + badges (no image rendering)
+- [x] **IDENT-01**: User receives CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges
+- [x] **IDENT-02**: Archetype inference uses portfolio composition (IP concentration, language spread, rarity distribution, action history)
+- [x] **IDENT-03**: Shareable collector identity as exportable JSON + short text + badges (no image rendering)
 
 ### Rules Engine
 
@@ -148,9 +148,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | EXTC-02 | Phase 4 | Complete |
 | EXTC-03 | Phase 4 | Complete |
 | VAULT-04 | Phase 4 | Pending |
-| IDENT-01 | Phase 4 | Pending |
-| IDENT-02 | Phase 4 | Pending |
-| IDENT-03 | Phase 4 | Pending |
+| IDENT-01 | Phase 4 | Complete |
+| IDENT-02 | Phase 4 | Complete |
+| IDENT-03 | Phase 4 | Complete |
 | API-01 | Phase 4 | Pending |
 | API-02 | Phase 4 | Pending |
 | API-03 | Phase 4 | Pending |
