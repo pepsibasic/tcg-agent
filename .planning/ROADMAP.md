@@ -30,7 +30,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Zod schemas for CardAnalysis, PortfolioSummary, CollectorArchetype, and Action types can be imported from packages/schemas and all LLM-facing fields use z.nullable() (not z.optional())
   4. `pnpm db:seed` populates the local database with cards in all states (vaulted, external, on_market, in_transit) and at least two user scenarios
   5. Turborepo build pipeline respects the schemas -> db -> agent -> api dependency order
-**Plans**: TBD
+**Plans:** 4 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Monorepo scaffold with pnpm + Turborepo + all 4 package skeletons
+- [ ] 01-02-PLAN.md — Zod schemas for all agent output types (LLM + API) with unit tests
+- [ ] 01-03-PLAN.md — Prisma 7 data model, migration, and client singleton
+- [ ] 01-04-PLAN.md — Seed data fixtures and end-to-end build verification
 
 ### Phase 2: Rules Engine
 **Goal**: A fully-tested deterministic rules engine computes eligible actions per card state and vault conversion candidates — the sole source of truth for the actions field in any card analysis, with no LLM involvement
@@ -89,7 +95,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 0/4 | Planning complete | - |
 | 2. Rules Engine | 0/TBD | Not started | - |
 | 3. LLM Layer | 0/TBD | Not started | - |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
