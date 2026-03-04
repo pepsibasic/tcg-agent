@@ -8,16 +8,18 @@
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "test": "vitest run"
   },
   "dependencies": {
-    "fastify": "^5.2.0",
-    "@tcg/schemas": "workspace:*",
+    "@tcg/agent": "workspace:*",
     "@tcg/db": "workspace:*",
-    "@tcg/agent": "workspace:*"
+    "@tcg/schemas": "workspace:*",
+    "fastify": "^5.2.0"
   },
   "devDependencies": {
+    "tsx": "^4.19.0",
     "typescript": "^5.7.0",
-    "tsx": "^4.19.0"
+    "vitest": "^3.0.0"
   }
 }
