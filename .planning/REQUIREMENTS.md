@@ -51,7 +51,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **RULE-01**: Deterministic rules engine computes eligible actions per card based on card state — LLM never decides action eligibility
 - [x] **RULE-02**: Action types include BUYBACK, LIST, REDEEM, SHIP_TO_VAULT, OPEN_PACK, WATCHLIST, BUNDLE_SHIP with params, ui_copy, and risk_notes
-- [ ] **RULE-03**: Rules engine output is the sole source of the actions field in CardAnalysis — LLM cannot add or remove actions
+- [x] **RULE-03**: Rules engine output is the sole source of the actions field in CardAnalysis — LLM cannot add or remove actions
 
 ### LLM Layer
 
@@ -128,7 +128,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | FOUND-05 | Phase 1 | Complete |
 | RULE-01 | Phase 2 | Complete |
 | RULE-02 | Phase 2 | Complete |
-| RULE-03 | Phase 2 | Pending |
+| RULE-03 | Phase 2 | Complete |
 | VAULT-01 | Phase 2 | Pending |
 | VAULT-02 | Phase 2 | Pending |
 | VAULT-03 | Phase 2 | Pending |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-03-04T13:02:37.753Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-03-04T13:07:50.985Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 7
   percent: 0
 ---
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P03 | 3min | 2 tasks | 7 files |
 | Phase 01 P04 | 5 | 2 tasks | 2 files |
 | Phase 02 P01 | 2 | 2 tasks | 6 files |
+| Phase 02-rules-engine P02 | 2 | 1 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,9 @@ Recent decisions affecting current work:
 - [Phase 02]: ON_MARKET returns [] (final - no actions while listed), IN_TRANSIT returns WATCHLIST only (final)
 - [Phase 02]: Exhaustive switch with TypeScript never check for CardState coverage
 - [Phase 02]: VAULTED and EXTERNAL are placeholders until Plan 02-02 fills real logic
+- [Phase 02-rules-engine]: BUYBACK hidden for NO_DATA (not suppressed with disclaimer) — no price means no buyback basis; null estimatedValue treated identically
+- [Phase 02-rules-engine]: STALE_7D adds risk_notes to BUYBACK and LIST but does not suppress — user retains agency with price-staleness warning
+- [Phase 02-rules-engine]: batchEligible=false at per-card level for SHIP_TO_VAULT — batch logic lives exclusively in computeVaultConversionCandidates
 
 ### Pending Todos
 
@@ -93,6 +97,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T13:02:37.751Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-03-04T13:07:50.983Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None

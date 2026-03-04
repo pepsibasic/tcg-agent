@@ -13,7 +13,7 @@ Build a rules+LLM hybrid portfolio intelligence service embedded in the Gacha co
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation** - Monorepo scaffold, Zod schemas, Prisma data model, and seed data (completed 2026-03-04)
-- [ ] **Phase 2: Rules Engine** - Deterministic card action eligibility and vault conversion logic (no LLM)
+- [x] **Phase 2: Rules Engine** - Deterministic card action eligibility and vault conversion logic (no LLM) (completed 2026-03-04)
 - [ ] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety
 - [ ] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity
 - [ ] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests
@@ -48,7 +48,7 @@ Plans:
   3. `computeVaultConversionCandidates(cards)` returns SHIP_TO_VAULT recommendations when an external card value meets the configurable threshold or when batch shipping conditions are met
   4. A vault recommendation response always includes the "unlocks" reasons (instant liquidity, trade into packs, verified portfolio ranking)
   5. Rules engine unit tests cover all card states × all action types and pass with zero failures
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Test infrastructure, type contracts, state dispatcher, and shared WATCHLIST builder
@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
-| 2. Rules Engine | 1/3 | In Progress|  |
+| 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
 | 3. LLM Layer | 0/TBD | Not started | - |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
