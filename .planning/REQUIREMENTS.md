@@ -9,7 +9,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: TypeScript pnpm monorepo with apps/api, packages/agent, packages/schemas, packages/db structure
+- [x] **FOUND-01**: TypeScript pnpm monorepo with apps/api, packages/agent, packages/schemas, packages/db structure
 - [ ] **FOUND-02**: Zod schemas defined for CardAnalysis, PortfolioSummary, CollectorArchetype, and Action types with nullable (not optional) fields for LLM compatibility
 - [ ] **FOUND-03**: Prisma schema with users, cards, user_cards (state enum: vaulted/external/on_market/in_transit), external_cards, packs, pack_cards, marketplace_listings (stub), actions_log tables
 - [ ] **FOUND-04**: All price fields include priceFetchedAt timestamp and priceConfidence enum (LIVE/RECENT_24H/STALE_7D/NO_DATA)
@@ -121,7 +121,7 @@ Deferred to future release. Tracked but not in current roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FOUND-01 | Phase 1 | Pending |
+| FOUND-01 | Phase 1 | Complete |
 | FOUND-02 | Phase 1 | Pending |
 | FOUND-03 | Phase 1 | Pending |
 | FOUND-04 | Phase 1 | Pending |
