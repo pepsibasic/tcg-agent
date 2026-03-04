@@ -65,7 +65,12 @@ Plans:
   3. Any LLM output containing financial advice language (profit guarantees, buy/sell/hold directives, price prediction certainty) is detected and replaced by the compliance guard before reaching the API response
   4. User-supplied card names and notes are sanitized and wrapped in XML-delimited context tags before prompt interpolation — raw user strings never appear directly in prompt instructions
   5. Prompt templates for card narrative, portfolio summary, and archetype identity are registered in the prompt store and can be rendered with slot injection
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md — LLM client abstraction (Vercel AI SDK) + input sanitization
+- [ ] 03-02-PLAN.md — Prompt templates with slot injection + compliance guard
+- [ ] 03-03-PLAN.md — Retry/fallback loop with schema-aware error feedback + barrel exports
 
 ### Phase 4: Agent Orchestrators and API
 **Goal**: All three agent orchestrators (card analysis, portfolio summary, archetype detection) compose the rules engine and LLM layer into complete user-facing flows, exposed via REST endpoints that accept requests and return validated JSON
@@ -102,7 +107,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
-| 3. LLM Layer | 0/TBD | Not started | - |
+| 3. LLM Layer | 0/3 | Planning complete | - |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
 
