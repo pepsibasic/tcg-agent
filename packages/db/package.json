@@ -1,0 +1,27 @@
+{
+  "name": "@tcg/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "seed": "tsx src/seed.ts",
+    "generate": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "@prisma/adapter-pg": "^6.0.0",
+    "pg": "^8.13.0",
+    "dotenv": "^16.4.0",
+    "@tcg/schemas": "workspace:*"
+  },
+  "devDependencies": {
+    "prisma": "^6.0.0",
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0",
+    "@types/pg": "^8.11.0"
+  }
+}

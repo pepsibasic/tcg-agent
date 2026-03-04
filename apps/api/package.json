@@ -1,0 +1,23 @@
+{
+  "name": "@tcg/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/server.js",
+  "types": "dist/server.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsx watch src/server.ts"
+  },
+  "dependencies": {
+    "fastify": "^5.2.0",
+    "@tcg/schemas": "workspace:*",
+    "@tcg/db": "workspace:*",
+    "@tcg/agent": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0"
+  }
+}
