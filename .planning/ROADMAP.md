@@ -48,7 +48,7 @@ Plans:
   3. `computeVaultConversionCandidates(cards)` returns SHIP_TO_VAULT recommendations when an external card value meets the configurable threshold or when batch shipping conditions are met
   4. A vault recommendation response always includes the "unlocks" reasons (instant liquidity, trade into packs, verified portfolio ranking)
   5. Rules engine unit tests cover all card states × all action types and pass with zero failures
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Test infrastructure, type contracts, state dispatcher, and shared WATCHLIST builder
@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
-| 2. Rules Engine | 0/3 | Planning complete | - |
+| 2. Rules Engine | 1/3 | In Progress|  |
 | 3. LLM Layer | 0/TBD | Not started | - |
 | 4. Agent Orchestrators and API | 0/TBD | Not started | - |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |

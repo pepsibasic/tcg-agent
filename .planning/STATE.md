@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 2 context gathered
-last_updated: "2026-03-04T12:36:30.298Z"
+stopped_at: Completed 02-01-PLAN.md
+last_updated: "2026-03-04T13:02:37.753Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_plans: 7
+  completed_plans: 5
   percent: 0
 ---
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P02 | 3min | 2 tasks | 13 files |
 | Phase 01 P03 | 3min | 2 tasks | 7 files |
 | Phase 01 P04 | 5 | 2 tasks | 2 files |
+| Phase 02 P01 | 2 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -75,6 +76,9 @@ Recent decisions affecting current work:
 - [Phase 01]: Import from generated client path not @prisma/client due to custom output
 - [Phase 01]: Used prisma migrate diff for migration SQL (no DB connection required)
 - [Phase 01]: Fixed UUID format strings for all seed records ensure idempotent upserts without delete-all strategy
+- [Phase 02]: ON_MARKET returns [] (final - no actions while listed), IN_TRANSIT returns WATCHLIST only (final)
+- [Phase 02]: Exhaustive switch with TypeScript never check for CardState coverage
+- [Phase 02]: VAULTED and EXTERNAL are placeholders until Plan 02-02 fills real logic
 
 ### Pending Todos
 
@@ -89,6 +93,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T12:36:30.295Z
-Stopped at: Phase 2 context gathered
-Resume file: .planning/phases/02-rules-engine/02-CONTEXT.md
+Last session: 2026-03-04T13:02:37.751Z
+Stopped at: Completed 02-01-PLAN.md
+Resume file: None
