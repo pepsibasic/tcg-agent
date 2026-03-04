@@ -83,7 +83,7 @@ Plans:
   4. A user can upload an external card via `POST /external-cards` (title, set, grade, cert number, estimated value) and it immediately appears in the portfolio view with read-only intelligence (analysis but no Gacha economy actions)
   5. `POST /agent/archetype` returns CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges — as exportable JSON with short text
   6. `POST /vault/shipments` creates a shipment intent stub and logs the action; `POST /actions/execute` logs the executed action with card state
-**Plans:** 5 plans
+**Plans:** 2/5 plans executed
 
 Plans:
 - [ ] 04-01-PLAN.md — Card analysis orchestrator (TDD) with single-card and batch/pack-pull flows
@@ -115,7 +115,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
-| 4. Agent Orchestrators and API | 0/5 | Not started | - |
+| 4. Agent Orchestrators and API | 2/5 | In Progress|  |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
 
 ---

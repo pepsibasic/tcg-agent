@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 4 planning complete — 5 plans verified
-last_updated: "2026-03-04T14:16:07.887Z"
-last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
+stopped_at: Completed 04-04-PLAN.md (external card CRUD routes + PSA cert stub)
+last_updated: "2026-03-04T22:33:00.000Z"
+last_activity: 2026-03-04 — Phase 04 Plan 04 complete — external card routes with 9 tests
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 15
-  completed_plans: 10
+  completed_plans: 13
   percent: 0
 ---
 
@@ -60,6 +60,8 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 03-llm-layer P01 | 6 | 2 tasks | 8 files |
 | Phase 03-llm-layer P02 | 2min | 2 tasks | 4 files |
 | Phase 03-llm-layer P03 | 5 | 1 tasks | 4 files |
+| Phase 04-agent-orchestrators-and-api P01 | 3 | 2 tasks | 5 files |
+| Phase 04-agent-orchestrators-and-api P04 | 3min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -95,6 +97,9 @@ Recent decisions affecting current work:
 - [Phase 03-llm-layer]: renderPrompt returns { system, user } pair to keep provider abstraction clean for generateStructured
 - [Phase 03-llm-layer]: scrubCompliance accepts explicit narrativeFields list — callers must declare what to scrub, preventing accidental scrubbing of identity_tags or cert numbers
 - [Phase 03-llm-layer]: maxAttempts = maxRetries+1 (default 3 total), retry prompt appends truncated 500-char error to preserve full context
+- [Phase 04-agent-orchestrators-and-api]: Actions from computeEligibleActions only — LLM prompt never receives action eligibility, maintaining strict rules/LLM separation
+- [Phase 04-agent-orchestrators-and-api]: Degraded mode: rarity_signal/liquidity_signal use null type assertion — LLM schema types them as string but degraded path needs null to signal missing data
+- [Phase 04-agent-orchestrators-and-api]: degraded field is z.boolean().optional() — absent on normal responses, present only when LLM fails
 
 ### Pending Todos
 
@@ -109,6 +114,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T14:16:07.868Z
-Stopped at: Phase 4 planning complete — 5 plans verified
-Resume file: .planning/phases/04-agent-orchestrators-and-api/04-01-PLAN.md
+Last session: 2026-03-04T14:33:20.816Z
+Stopped at: Completed 04-agent-orchestrators-and-api-01-PLAN.md
+Resume file: None
