@@ -166,10 +166,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | TEST-03 | Phase 5 | Pending |
 
 **Coverage:**
-- v1 requirements: 42 total
-- Mapped to phases: 42
-- Unmapped: 0 ✓
+- v1 requirements: 43 total
+- Mapped to phases: 43
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-04*
-*Last updated: 2026-03-04 after initial definition*
+*Last updated: 2026-03-04 after roadmap creation — traceability table finalized*
