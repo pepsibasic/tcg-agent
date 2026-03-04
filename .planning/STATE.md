@@ -100,6 +100,10 @@ Recent decisions affecting current work:
 - [Phase 04-agent-orchestrators-and-api]: Actions from computeEligibleActions only — LLM prompt never receives action eligibility, maintaining strict rules/LLM separation
 - [Phase 04-agent-orchestrators-and-api]: Degraded mode: rarity_signal/liquidity_signal use null type assertion — LLM schema types them as string but degraded path needs null to signal missing data
 - [Phase 04-agent-orchestrators-and-api]: degraded field is z.boolean().optional() — absent on normal responses, present only when LLM fails
+- [Phase 04-04]: External card creation never triggers analysis — priceConfidence set to NO_DATA, no side effects on POST
+- [Phase 04-04]: PSA cert lookup is a stub returning stored DB grade — clean replacement point for real API integration
+- [Phase 04-04]: Soft-delete for external cards uses deletedAt field (consistent with userCard pattern)
+- [Phase 04-04]: tsconfig exclude pattern for __tests__ dirs added to apps/api/tsconfig.json (same as packages/agent)
 
 ### Pending Todos
 
@@ -114,6 +118,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-04T14:33:20.816Z
-Stopped at: Completed 04-agent-orchestrators-and-api-01-PLAN.md
-Resume file: None
+Last session: 2026-03-04T22:33:00.000Z
+Stopped at: Completed 04-04-PLAN.md (external card CRUD routes + PSA cert stub)
+Resume file: .planning/phases/04-agent-orchestrators-and-api/04-05-PLAN.md

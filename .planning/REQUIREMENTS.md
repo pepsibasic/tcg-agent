@@ -30,9 +30,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### External Cards
 
-- [ ] **EXTC-01**: User can upload external cards via manual entry (title, set, grade, cert number, estimated value)
-- [ ] **EXTC-02**: External cards appear in portfolio with read-only intelligence (analysis but no Gacha economy actions)
-- [ ] **EXTC-03**: PSA cert lookup stub accepts cert number and returns stored grade (no live scraping)
+- [x] **EXTC-01**: User can upload external cards via manual entry (title, set, grade, cert number, estimated value)
+- [x] **EXTC-02**: External cards appear in portfolio with read-only intelligence (analysis but no Gacha economy actions)
+- [x] **EXTC-03**: PSA cert lookup stub accepts cert number and returns stored grade (no live scraping)
 
 ### Vault Conversion
 
@@ -66,7 +66,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **API-01**: POST /agent/card/analyze endpoint returns CardAnalysis JSON
 - [ ] **API-02**: POST /agent/portfolio/summary endpoint returns PortfolioSummary JSON
 - [ ] **API-03**: POST /agent/archetype endpoint returns CollectorArchetype JSON
-- [ ] **API-04**: POST /external-cards endpoint for creating/uploading external cards
+- [x] **API-04**: POST /external-cards endpoint for creating/uploading external cards
 - [ ] **API-05**: POST /vault/shipments endpoint for creating shipment intent
 - [ ] **API-06**: POST /actions/execute endpoint (stub execution, logs action)
 - [ ] **API-07**: Structured logs with request IDs on all endpoints
@@ -144,9 +144,9 @@ Deferred to future release. Tracked but not in current roadmap.
 | PORT-01 | Phase 4 | Pending |
 | PORT-02 | Phase 4 | Pending |
 | PORT-03 | Phase 4 | Pending |
-| EXTC-01 | Phase 4 | Pending |
-| EXTC-02 | Phase 4 | Pending |
-| EXTC-03 | Phase 4 | Pending |
+| EXTC-01 | Phase 4 | Complete |
+| EXTC-02 | Phase 4 | Complete |
+| EXTC-03 | Phase 4 | Complete |
 | VAULT-04 | Phase 4 | Pending |
 | IDENT-01 | Phase 4 | Pending |
 | IDENT-02 | Phase 4 | Pending |
@@ -154,7 +154,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | API-01 | Phase 4 | Pending |
 | API-02 | Phase 4 | Pending |
 | API-03 | Phase 4 | Pending |
-| API-04 | Phase 4 | Pending |
+| API-04 | Phase 4 | Complete |
 | API-05 | Phase 4 | Pending |
 | API-06 | Phase 4 | Pending |
 | API-07 | Phase 5 | Pending |
