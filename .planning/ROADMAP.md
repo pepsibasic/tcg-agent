@@ -83,7 +83,14 @@ Plans:
   4. A user can upload an external card via `POST /external-cards` (title, set, grade, cert number, estimated value) and it immediately appears in the portfolio view with read-only intelligence (analysis but no Gacha economy actions)
   5. `POST /agent/archetype` returns CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges — as exportable JSON with short text
   6. `POST /vault/shipments` creates a shipment intent stub and logs the action; `POST /actions/execute` logs the executed action with card state
-**Plans**: TBD
+**Plans:** 5 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Card analysis orchestrator (TDD) with single-card and batch/pack-pull flows
+- [ ] 04-02-PLAN.md — Portfolio summary orchestrator (TDD) with unified vaulted + external card view
+- [ ] 04-03-PLAN.md — Archetype detection orchestrator (TDD) with deterministic badge computation
+- [ ] 04-04-PLAN.md — External card CRUD routes and PSA cert lookup stub
+- [ ] 04-05-PLAN.md — Agent, vault, and actions Fastify routes with server.ts wiring
 
 ### Phase 5: Observability, Hardening, and Testing
 **Goal**: Every agent operation produces structured logs with request IDs, every user action is audited, LLM validation failures are captured with diagnostic context, and unit + integration tests verify the full system from HTTP request to JSON response
@@ -108,7 +115,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 1. Foundation | 4/4 | Complete   | 2026-03-04 |
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
-| 4. Agent Orchestrators and API | 0/TBD | Not started | - |
+| 4. Agent Orchestrators and API | 0/5 | Not started | - |
 | 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
 
 ---
