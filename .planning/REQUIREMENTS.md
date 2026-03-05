@@ -69,13 +69,13 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **API-04**: POST /external-cards endpoint for creating/uploading external cards
 - [x] **API-05**: POST /vault/shipments endpoint for creating shipment intent
 - [x] **API-06**: POST /actions/execute endpoint (stub execution, logs action)
-- [ ] **API-07**: Structured logs with request IDs on all endpoints
+- [x] **API-07**: Structured logs with request IDs on all endpoints
 
 ### Observability
 
-- [ ] **OBS-01**: Structured logging with request IDs across all agent operations
-- [ ] **OBS-02**: Actions log records what agent recommended and what user clicked
-- [ ] **OBS-03**: LLM validation failures logged with card_id, model, error path, and truncated raw output
+- [x] **OBS-01**: Structured logging with request IDs across all agent operations
+- [x] **OBS-02**: Actions log records what agent recommended and what user clicked
+- [x] **OBS-03**: LLM validation failures logged with card_id, model, error path, and truncated raw output
 
 ### Testing
 
@@ -157,10 +157,10 @@ Deferred to future release. Tracked but not in current roadmap.
 | API-04 | Phase 4 | Complete |
 | API-05 | Phase 4 | Complete |
 | API-06 | Phase 4 | Complete |
-| API-07 | Phase 5 | Pending |
-| OBS-01 | Phase 5 | Pending |
-| OBS-02 | Phase 5 | Pending |
-| OBS-03 | Phase 5 | Pending |
+| API-07 | Phase 5 | Complete |
+| OBS-01 | Phase 5 | Complete |
+| OBS-02 | Phase 5 | Complete |
+| OBS-03 | Phase 5 | Complete |
 | TEST-01 | Phase 5 | Pending |
 | TEST-02 | Phase 5 | Pending |
 | TEST-03 | Phase 5 | Pending |
