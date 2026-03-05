@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety (completed 2026-03-04)
 - [x] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity (completed 2026-03-04)
 - [x] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests (completed 2026-03-05)
-- [ ] **Phase 6: Prompt-Schema Alignment** - Fix all 3 LLM prompt templates to match Zod schemas, wire input sanitization, add contract tests (gap closure)
+- [x] **Phase 6: Prompt-Schema Alignment** - Fix all 3 LLM prompt templates to match Zod schemas, wire input sanitization, add contract tests (gap closure) (completed 2026-03-05)
 - [ ] **Phase 7: Cross-Phase Wiring and Test Fidelity** - Wire vault conversion to API, thread LLM logger, add batch audit log, fix integration test mocks (gap closure)
 
 ## Phase Details
@@ -124,7 +124,7 @@ Plans:
   4. card_id is injected by the orchestrator after LLM call (not requested from LLM)
   5. sanitizeInput/wrapUserInput called in portfolio-summary and archetype orchestrators before prompt rendering
   6. Contract tests verify each prompt template's field list matches its Zod schema keys
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 06-01-PLAN.md — Fix all 3 prompt templates and wire sanitization in portfolio-summary + archetype orchestrators
@@ -154,7 +154,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
-| 6. Prompt-Schema Alignment | 1/2 | In Progress|  |
+| 6. Prompt-Schema Alignment | 2/2 | Complete   | 2026-03-05 |
 | 7. Cross-Phase Wiring and Test Fidelity | 0 | Not started | - |
 
 ---

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 06-prompt-schema-alignment 06-01-PLAN.md
-last_updated: "2026-03-05T06:12:06.636Z"
+stopped_at: Completed 06-prompt-schema-alignment 06-02-PLAN.md
+last_updated: "2026-03-05T06:16:18.432Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 7
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 20
-  completed_plans: 19
+  completed_plans: 20
   percent: 0
 ---
 
@@ -69,6 +69,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 05-observability-hardening-and-testing P02 | 3 | 2 tasks | 5 files |
 | Phase 05-observability-hardening-and-testing P03 | 2 | 1 tasks | 1 files |
 | Phase 06-prompt-schema-alignment P01 | 4 | 2 tasks | 5 files |
+| Phase 06-prompt-schema-alignment P02 | 1 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -128,6 +129,8 @@ Recent decisions affecting current work:
 - [Phase 06-01]: PortfolioSummaryLLMSchema has only 5 fields — orchestrator merges DB-computed fields after generateWithRetry succeeds, eliminating Zod validation failures on orchestrator-computed fields
 - [Phase 06-01]: Narrow schema pattern: define separate LLM schema for generateWithRetry; full API schema merges after LLM call in orchestrator success path
 - [Phase 06-01]: All user-influenced slot values (IP categories, action history, portfolio data) wrapped with wrapUserInput before renderPrompt; system-generated values (userId, counts) are not wrapped
+- [Phase 06-02]: String-match (toContain) strategy for contract tests — catches both additions and removals without fragile regex field extraction
+- [Phase 06-02]: Portfolio contract tests against PortfolioSummaryLLMSchema.shape (5 fields), not PortfolioSummarySchema (10 fields) — enforces narrow schema boundary from 06-01
 
 ### Pending Todos
 
@@ -142,6 +145,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T06:12:06.633Z
-Stopped at: Completed 06-prompt-schema-alignment 06-01-PLAN.md
+Last session: 2026-03-05T06:16:18.430Z
+Stopped at: Completed 06-prompt-schema-alignment 06-02-PLAN.md
 Resume file: None
