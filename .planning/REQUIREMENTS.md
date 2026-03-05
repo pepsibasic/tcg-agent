@@ -79,8 +79,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Testing
 
-- [ ] **TEST-01**: Vitest unit tests for all zod schemas (valid and invalid inputs)
-- [ ] **TEST-02**: Vitest unit tests for rules engine (all card states × action eligibility)
+- [x] **TEST-01**: Vitest unit tests for all zod schemas (valid and invalid inputs)
+- [x] **TEST-02**: Vitest unit tests for rules engine (all card states × action eligibility)
 - [ ] **TEST-03**: Integration tests for MVP user journeys via HTTP (pack pull, external upload, portfolio summary, share card)
 
 ## v2 Requirements
@@ -161,8 +161,8 @@ Deferred to future release. Tracked but not in current roadmap.
 | OBS-01 | Phase 5 | Complete |
 | OBS-02 | Phase 5 | Complete |
 | OBS-03 | Phase 5 | Complete |
-| TEST-01 | Phase 5 | Pending |
-| TEST-02 | Phase 5 | Pending |
+| TEST-01 | Phase 5 | Complete |
+| TEST-02 | Phase 5 | Complete |
 | TEST-03 | Phase 5 | Pending |
 
 **Coverage:**

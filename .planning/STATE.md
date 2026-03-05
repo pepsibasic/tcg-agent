@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-05T02:23:18.966Z"
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-05T02:31:53.486Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 18
-  completed_plans: 16
+  completed_plans: 17
   percent: 0
 ---
 
@@ -66,6 +66,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 04-agent-orchestrators-and-api P02 | 6 | 2 tasks | 3 files |
 | Phase 04-agent-orchestrators-and-api P05 | 2 | 3 tasks | 7 files |
 | Phase 05-observability-hardening-and-testing P01 | 4 | 2 tasks | 5 files |
+| Phase 05-observability-hardening-and-testing P02 | 3 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -118,6 +119,8 @@ Recent decisions affecting current work:
 - [Phase 04-agent-orchestrators-and-api]: Union type narrowing: 'degraded' in result guard for ArchetypeResult discriminated union
 - [Phase 05]: genReqId reads X-Request-Id header from upstream gateway or generates UUID; onSend hook reflects it back on every response
 - [Phase 05]: LLMLogger is a minimal interface (info/warn only) — keeps agent package decoupled from Fastify; logger optional with if(options.logger) guards
+- [Phase 05-observability-hardening-and-testing]: safeParse used for invalid-input tests so failures are assertions on .success===false and .error.issues, not thrown exceptions
+- [Phase 05-observability-hardening-and-testing]: gap-fill.test.ts uses CardStateSchema.options for sentinel to dynamically iterate all enum values — auto-catches new states
 
 ### Pending Todos
 
@@ -132,6 +135,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T02:23:11.540Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-05T02:31:53.483Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
