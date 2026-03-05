@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 6 context gathered
-last_updated: "2026-03-05T05:43:50.179Z"
+stopped_at: Completed 06-prompt-schema-alignment 06-01-PLAN.md
+last_updated: "2026-03-05T06:12:06.636Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 7
   completed_phases: 5
-  total_plans: 18
-  completed_plans: 18
+  total_plans: 20
+  completed_plans: 19
   percent: 0
 ---
 
@@ -68,6 +68,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 05-observability-hardening-and-testing P01 | 4 | 2 tasks | 5 files |
 | Phase 05-observability-hardening-and-testing P02 | 3 | 2 tasks | 5 files |
 | Phase 05-observability-hardening-and-testing P03 | 2 | 1 tasks | 1 files |
+| Phase 06-prompt-schema-alignment P01 | 4 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -124,6 +125,9 @@ Recent decisions affecting current work:
 - [Phase 05-observability-hardening-and-testing]: gap-fill.test.ts uses CardStateSchema.options for sentinel to dynamically iterate all enum values — auto-catches new states
 - [Phase 05-observability-hardening-and-testing]: Mock at orchestrator boundary (@tcg/agent) not LLM layer in journey tests — exercises real route handler logic including auth, request parsing, actionsLog audit write, X-Request-Id reflection
 - [Phase 05-observability-hardening-and-testing]: Journey integration tests include genReqId and onSend hooks in buildServer() matching server.ts — verifies X-Request-Id observability works end-to-end
+- [Phase 06-01]: PortfolioSummaryLLMSchema has only 5 fields — orchestrator merges DB-computed fields after generateWithRetry succeeds, eliminating Zod validation failures on orchestrator-computed fields
+- [Phase 06-01]: Narrow schema pattern: define separate LLM schema for generateWithRetry; full API schema merges after LLM call in orchestrator success path
+- [Phase 06-01]: All user-influenced slot values (IP categories, action history, portfolio data) wrapped with wrapUserInput before renderPrompt; system-generated values (userId, counts) are not wrapped
 
 ### Pending Todos
 
@@ -138,6 +142,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T05:43:50.176Z
-Stopped at: Phase 6 context gathered
-Resume file: .planning/phases/06-prompt-schema-alignment/06-CONTEXT.md
+Last session: 2026-03-05T06:12:06.633Z
+Stopped at: Completed 06-prompt-schema-alignment 06-01-PLAN.md
+Resume file: None

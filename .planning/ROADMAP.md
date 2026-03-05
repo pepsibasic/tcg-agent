@@ -124,7 +124,7 @@ Plans:
   4. card_id is injected by the orchestrator after LLM call (not requested from LLM)
   5. sanitizeInput/wrapUserInput called in portfolio-summary and archetype orchestrators before prompt rendering
   6. Contract tests verify each prompt template's field list matches its Zod schema keys
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 06-01-PLAN.md — Fix all 3 prompt templates and wire sanitization in portfolio-summary + archetype orchestrators
@@ -154,7 +154,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
-| 6. Prompt-Schema Alignment | 0/2 | Not started | - |
+| 6. Prompt-Schema Alignment | 1/2 | In Progress|  |
 | 7. Cross-Phase Wiring and Test Fidelity | 0 | Not started | - |
 
 ---
