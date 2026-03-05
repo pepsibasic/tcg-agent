@@ -23,6 +23,11 @@ export async function actionsRoutes(fastify: FastifyInstance) {
       },
     })
 
+    request.log.info(
+      { action_type: body.action, card_id: body.cardId ?? null, user_id: userId },
+      'action_executed'
+    )
+
     return reply.code(201).send({
       status: 'logged',
       message: 'Action recorded',

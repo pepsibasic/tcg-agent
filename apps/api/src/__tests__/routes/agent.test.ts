@@ -15,6 +15,15 @@ vi.mock('@tcg/agent', () => ({
   detectArchetype: (...args: unknown[]) => mockDetectArchetype(...args),
 }))
 
+// Mock @tcg/db so tests don't need Prisma generated client
+vi.mock('@tcg/db', () => ({
+  prisma: {
+    actionsLog: {
+      create: vi.fn().mockResolvedValue({}),
+    },
+  },
+}))
+
 function buildServer() {
   const app = Fastify({ logger: false })
   app.register(agentRoutes)

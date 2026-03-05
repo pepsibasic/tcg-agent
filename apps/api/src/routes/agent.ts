@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { analyzeCard, analyzeCardBatch, summarizePortfolio, detectArchetype } from '@tcg/agent'
+import { prisma } from '@tcg/db'
 
 function getUserIdOrFail(
   request: { headers: Record<string, string | string[] | undefined> },
@@ -34,6 +35,19 @@ export async function agentRoutes(fastify: FastifyInstance) {
       })
     }
 
+    // Audit: log recommended actions to actions_log (OBS-02)
+    const recommendedActions = result.data.actions ?? []
+    await prisma.actionsLog.create({
+      data: {
+        userId,
+        cardId: body.cardId,
+        agentRecommended: { actions: recommendedActions },
+        userAction: 'RECOMMENDATION',
+      },
+    })
+
+    request.log.info({ endpoint: '/agent/card/analyze', user_id: userId, card_count: 1 }, 'agent_analysis_complete')
+
     const responseBody: Record<string, unknown> = { ...result.data }
     if (result.degraded) {
       responseBody.degraded = true
@@ -56,6 +70,11 @@ export async function agentRoutes(fastify: FastifyInstance) {
 
     const results = await analyzeCardBatch(body.cardIds as string[], userId, { source: 'pack_pull' })
 
+    request.log.info(
+      { endpoint: '/agent/card/analyze-batch', user_id: userId, card_count: (body.cardIds as string[]).length },
+      'agent_analysis_complete'
+    )
+
     return reply.code(200).send({ results })
   })
 
@@ -65,6 +84,8 @@ export async function agentRoutes(fastify: FastifyInstance) {
     if (!userId) return
 
     const result = await summarizePortfolio(userId)
+
+    request.log.info({ endpoint: '/agent/portfolio/summary', user_id: userId }, 'agent_analysis_complete')
 
     const responseBody: Record<string, unknown> = { ...result.data }
     if (result.degraded) {
@@ -80,6 +101,8 @@ export async function agentRoutes(fastify: FastifyInstance) {
     if (!userId) return
 
     const result = await detectArchetype(userId)
+
+    request.log.info({ endpoint: '/agent/archetype', user_id: userId }, 'agent_analysis_complete')
 
     const responseBody: Record<string, unknown> = { ...result.data }
     if ('degraded' in result && result.degraded) {

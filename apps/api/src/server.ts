@@ -4,7 +4,14 @@ import { externalCardRoutes } from './routes/external-cards.js'
 import { vaultRoutes } from './routes/vault.js'
 import { actionsRoutes } from './routes/actions.js'
 
-const server = Fastify({ logger: true })
+const server = Fastify({
+  logger: true,
+  genReqId: (req) => (req.headers['x-request-id'] as string) || crypto.randomUUID(),
+})
+
+server.addHook('onSend', async (request, reply) => {
+  reply.header('X-Request-Id', request.id)
+})
 
 server.get('/health', async () => {
   return { status: 'ok' }
