@@ -17,6 +17,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety (completed 2026-03-04)
 - [x] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity (completed 2026-03-04)
 - [x] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests (completed 2026-03-05)
+- [ ] **Phase 6: Prompt-Schema Alignment** - Fix all 3 LLM prompt templates to match Zod schemas, wire input sanitization, add contract tests (gap closure)
+- [ ] **Phase 7: Cross-Phase Wiring and Test Fidelity** - Wire vault conversion to API, thread LLM logger, add batch audit log, fix integration test mocks (gap closure)
 
 ## Phase Details
 
@@ -110,10 +112,36 @@ Plans:
 - [ ] 05-02-PLAN.md — Zod schema validation tests and rules engine test gap-fill
 - [ ] 05-03-PLAN.md — MVP user journey integration tests via HTTP
 
+### Phase 6: Prompt-Schema Alignment
+**Goal**: All 3 LLM prompt templates produce output that validates against their target Zod schemas on the first attempt, input sanitization is wired in all orchestrators, and contract tests verify prompt-schema alignment cannot silently drift
+**Depends on**: Phase 5
+**Requirements**: LLM-02, LLM-05, CARD-01, CARD-04, PORT-01, PORT-03, IDENT-01, IDENT-02, IDENT-03
+**Gap Closure**: Closes gaps from v1.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. card_analysis prompt instructs confidence as enum HIGH/MEDIUM/LOW and price_band as {low, high, currency} — matching CardAnalysisSchema exactly
+  2. portfolio_summary prompt uses camelCase field names (concentrationScore, liquidityScore, recommendedActions) and breakdown as array of {ipCategory, totalValue, cardCount, percentOfPortfolio} — matching PortfolioSummarySchema exactly
+  3. archetype_identity prompt uses share_card_badges (not badges) — matching CollectorArchetypeSchema exactly
+  4. card_id is injected by the orchestrator after LLM call (not requested from LLM)
+  5. sanitizeInput/wrapUserInput called in portfolio-summary and archetype orchestrators before prompt rendering
+  6. Contract tests verify each prompt template's field list matches its Zod schema keys
+**Plans:** 0 plans
+
+### Phase 7: Cross-Phase Wiring and Test Fidelity
+**Goal**: Vault conversion recommendations are surfaced via the API, LLM diagnostic logging fires in production, batch card analysis writes audit entries, and integration test fixtures use schema-valid data
+**Depends on**: Phase 6
+**Requirements**: VAULT-01, VAULT-02, VAULT-03, OBS-02, OBS-03, CARD-03, TEST-03
+**Gap Closure**: Closes gaps from v1.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. computeVaultConversionCandidates is called from portfolio summary orchestrator or a dedicated endpoint and its results are included in the API response
+  2. request.log from Fastify is threaded through all 3 orchestrators into generateWithRetry — LLM diagnostic events (llm_validation_failure, llm_generation_exhausted) fire with real request context
+  3. POST /agent/card/analyze-batch writes RECOMMENDATION entries to actionsLog for each card analyzed
+  4. Integration test mock fixtures use valid PriceConfidence enum values (LIVE/RECENT_24H/STALE_7D/NO_DATA) and real ActionSchema shapes ({type, params, ui_copy, risk_notes})
+**Plans:** 0 plans
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -122,6 +150,8 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
+| 6. Prompt-Schema Alignment | 0 | Not started | - |
+| 7. Cross-Phase Wiring and Test Fidelity | 0 | Not started | - |
 
 ---
 *Roadmap created: 2026-03-04*

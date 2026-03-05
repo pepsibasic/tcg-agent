@@ -17,16 +17,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Card Analysis
 
-- [x] **CARD-01**: User can request analysis of any card (vaulted or external) and receive CardAnalysis JSON with identity_tags, rarity_signal, liquidity_signal, price_band, reasoning_bullets, confidence, and eligible actions
+- [ ] **CARD-01**: User can request analysis of any card (vaulted or external) and receive CardAnalysis JSON with identity_tags, rarity_signal, liquidity_signal, price_band, reasoning_bullets, confidence, and eligible actions
 - [x] **CARD-02**: Card analysis includes state-aware action eligibility — vaulted cards show sell/buyback/list/redeem/trade actions; external cards show ship-to-vault/watchlist actions
-- [x] **CARD-03**: After pack pull, user receives CardAnalysis for each pulled card with "What next?" actions contextual to the pull
-- [x] **CARD-04**: Card analysis outputs validated against zod schema with retry/fallback on invalid LLM response
+- [ ] **CARD-03**: After pack pull, user receives CardAnalysis for each pulled card with "What next?" actions contextual to the pull
+- [ ] **CARD-04**: Card analysis outputs validated against zod schema with retry/fallback on invalid LLM response
 
 ### Portfolio
 
-- [x] **PORT-01**: User can view PortfolioSummary with total_value_est, breakdown by IP and language, concentration score, liquidity_score, collector_archetype, missing_set_goals, and recommended_actions
+- [ ] **PORT-01**: User can view PortfolioSummary with total_value_est, breakdown by IP and language, concentration score, liquidity_score, collector_archetype, missing_set_goals, and recommended_actions
 - [x] **PORT-02**: Portfolio includes both vaulted and external cards in unified view
-- [x] **PORT-03**: Portfolio concentration signal identifies over-concentration in single IP/set/player
+- [ ] **PORT-03**: Portfolio concentration signal identifies over-concentration in single IP/set/player
 
 ### External Cards
 
@@ -36,16 +36,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Vault Conversion
 
-- [x] **VAULT-01**: Agent recommends vaulting when external card estimated value >= configurable threshold OR matches user identity goals OR user has enough cards to batch ship
-- [x] **VAULT-02**: Vault recommendation includes "unlocks" reasons: instant liquidity (buyback/list), trade into packs, verified portfolio ranking
-- [x] **VAULT-03**: Batching prompt triggers when user has >= N external cards or total external value >= X, recommending BUNDLE_SHIP action
+- [ ] **VAULT-01**: Agent recommends vaulting when external card estimated value >= configurable threshold OR matches user identity goals OR user has enough cards to batch ship
+- [ ] **VAULT-02**: Vault recommendation includes "unlocks" reasons: instant liquidity (buyback/list), trade into packs, verified portfolio ranking
+- [ ] **VAULT-03**: Batching prompt triggers when user has >= N external cards or total external value >= X, recommending BUNDLE_SHIP action
 - [x] **VAULT-04**: User can create shipment intent (stub execution with action logging)
 
 ### Collector Identity
 
-- [x] **IDENT-01**: User receives CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges
-- [x] **IDENT-02**: Archetype inference uses portfolio composition (IP concentration, language spread, rarity distribution, action history)
-- [x] **IDENT-03**: Shareable collector identity as exportable JSON + short text + badges (no image rendering)
+- [ ] **IDENT-01**: User receives CollectorArchetype with name, traits, why, comparable_collectors, share_card_text, and share_card_badges
+- [ ] **IDENT-02**: Archetype inference uses portfolio composition (IP concentration, language spread, rarity distribution, action history)
+- [ ] **IDENT-03**: Shareable collector identity as exportable JSON + short text + badges (no image rendering)
 
 ### Rules Engine
 
@@ -56,10 +56,10 @@ Requirements for initial release. Each maps to roadmap phases.
 ### LLM Layer
 
 - [x] **LLM-01**: LLM provider abstraction supporting OpenAI and Anthropic via Vercel AI SDK generateObject with zod schema validation
-- [x] **LLM-02**: Prompt templates for card narrative, portfolio summary, and archetype identity with slot injection
+- [ ] **LLM-02**: Prompt templates for card narrative, portfolio summary, and archetype identity with slot injection
 - [x] **LLM-03**: Retry with schema-aware error feedback (validation error appended to prompt) and deterministic fallback after max retries
 - [x] **LLM-04**: Compliance guard scrubs financial advice language from all LLM outputs — no guarantees of profit, always present uncertainty
-- [x] **LLM-05**: Input sanitization for user-supplied card names and notes before prompt interpolation (prompt injection prevention)
+- [ ] **LLM-05**: Input sanitization for user-supplied card names and notes before prompt interpolation (prompt injection prevention)
 
 ### API
 
@@ -74,14 +74,14 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Observability
 
 - [x] **OBS-01**: Structured logging with request IDs across all agent operations
-- [x] **OBS-02**: Actions log records what agent recommended and what user clicked
-- [x] **OBS-03**: LLM validation failures logged with card_id, model, error path, and truncated raw output
+- [ ] **OBS-02**: Actions log records what agent recommended and what user clicked
+- [ ] **OBS-03**: LLM validation failures logged with card_id, model, error path, and truncated raw output
 
 ### Testing
 
 - [x] **TEST-01**: Vitest unit tests for all zod schemas (valid and invalid inputs)
 - [x] **TEST-02**: Vitest unit tests for rules engine (all card states × action eligibility)
-- [x] **TEST-03**: Integration tests for MVP user journeys via HTTP (pack pull, external upload, portfolio summary, share card)
+- [ ] **TEST-03**: Integration tests for MVP user journeys via HTTP (pack pull, external upload, portfolio summary, share card)
 
 ## v2 Requirements
 
@@ -129,28 +129,28 @@ Deferred to future release. Tracked but not in current roadmap.
 | RULE-01 | Phase 2 | Complete |
 | RULE-02 | Phase 2 | Complete |
 | RULE-03 | Phase 2 | Complete |
-| VAULT-01 | Phase 2 | Complete |
-| VAULT-02 | Phase 2 | Complete |
-| VAULT-03 | Phase 2 | Complete |
+| VAULT-01 | Phase 7 | Pending |
+| VAULT-02 | Phase 7 | Pending |
+| VAULT-03 | Phase 7 | Pending |
 | LLM-01 | Phase 3 | Complete |
-| LLM-02 | Phase 3 | Complete |
+| LLM-02 | Phase 6 | Pending |
 | LLM-03 | Phase 3 | Complete |
 | LLM-04 | Phase 3 | Complete |
-| LLM-05 | Phase 3 | Complete |
-| CARD-01 | Phase 4 | Complete |
+| LLM-05 | Phase 6 | Pending |
+| CARD-01 | Phase 6 | Pending |
 | CARD-02 | Phase 4 | Complete |
-| CARD-03 | Phase 4 | Complete |
-| CARD-04 | Phase 4 | Complete |
-| PORT-01 | Phase 4 | Complete |
+| CARD-03 | Phase 7 | Pending |
+| CARD-04 | Phase 6 | Pending |
+| PORT-01 | Phase 6 | Pending |
 | PORT-02 | Phase 4 | Complete |
-| PORT-03 | Phase 4 | Complete |
+| PORT-03 | Phase 6 | Pending |
 | EXTC-01 | Phase 4 | Complete |
 | EXTC-02 | Phase 4 | Complete |
 | EXTC-03 | Phase 4 | Complete |
 | VAULT-04 | Phase 4 | Complete |
-| IDENT-01 | Phase 4 | Complete |
-| IDENT-02 | Phase 4 | Complete |
-| IDENT-03 | Phase 4 | Complete |
+| IDENT-01 | Phase 6 | Pending |
+| IDENT-02 | Phase 6 | Pending |
+| IDENT-03 | Phase 6 | Pending |
 | API-01 | Phase 4 | Complete |
 | API-02 | Phase 4 | Complete |
 | API-03 | Phase 4 | Complete |
@@ -159,17 +159,18 @@ Deferred to future release. Tracked but not in current roadmap.
 | API-06 | Phase 4 | Complete |
 | API-07 | Phase 5 | Complete |
 | OBS-01 | Phase 5 | Complete |
-| OBS-02 | Phase 5 | Complete |
-| OBS-03 | Phase 5 | Complete |
+| OBS-02 | Phase 7 | Pending |
+| OBS-03 | Phase 7 | Pending |
 | TEST-01 | Phase 5 | Complete |
 | TEST-02 | Phase 5 | Complete |
-| TEST-03 | Phase 5 | Complete |
+| TEST-03 | Phase 7 | Pending |
 
 **Coverage:**
 - v1 requirements: 43 total
-- Mapped to phases: 43
+- Complete: 28
+- Pending (gap closure): 15
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-04*
-*Last updated: 2026-03-04 after roadmap creation — traceability table finalized*
+*Last updated: 2026-03-05 — 15 requirements reset to Pending for gap closure phases 6-7*
