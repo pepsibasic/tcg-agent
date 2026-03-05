@@ -1,5 +1,6 @@
 import type { FastifyInstance } from 'fastify'
 import { analyzeCard, analyzeCardBatch, summarizePortfolio, detectArchetype } from '@tcg/agent'
+import type { LLMLogger } from '@tcg/agent'
 import { prisma } from '@tcg/db'
 
 function getUserIdOrFail(
@@ -27,7 +28,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
       })
     }
 
-    const result = await analyzeCard(body.cardId, userId)
+    const result = await analyzeCard(body.cardId, userId, {}, request.log as LLMLogger)
 
     if (!result.success) {
       return reply.code(404).send({
@@ -68,7 +69,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
       })
     }
 
-    const results = await analyzeCardBatch(body.cardIds as string[], userId, { source: 'pack_pull' })
+    const results = await analyzeCardBatch(body.cardIds as string[], userId, { source: 'pack_pull' }, request.log as LLMLogger)
 
     request.log.info(
       { endpoint: '/agent/card/analyze-batch', user_id: userId, card_count: (body.cardIds as string[]).length },
@@ -83,7 +84,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
     const userId = getUserIdOrFail(request, reply)
     if (!userId) return
 
-    const result = await summarizePortfolio(userId)
+    const result = await summarizePortfolio(userId, request.log as LLMLogger)
 
     request.log.info({ endpoint: '/agent/portfolio/summary', user_id: userId }, 'agent_analysis_complete')
 
@@ -100,7 +101,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
     const userId = getUserIdOrFail(request, reply)
     if (!userId) return
 
-    const result = await detectArchetype(userId)
+    const result = await detectArchetype(userId, request.log as LLMLogger)
 
     request.log.info({ endpoint: '/agent/archetype', user_id: userId }, 'agent_analysis_complete')
 

@@ -132,7 +132,8 @@ describe('Journey 1: Pack pull to card analysis', () => {
     expect(mockAnalyzeCardBatch).toHaveBeenCalledWith(
       ['uuid-card-1', 'uuid-card-2'],
       'test-user-id',
-      { source: 'pack_pull' }
+      { source: 'pack_pull' },
+      expect.anything()
     )
   })
 
@@ -382,7 +383,7 @@ describe('Journey 3: Portfolio summary request', () => {
     expect(body.breakdown[1].ipCategory).toBe('Magic: The Gathering')
 
     // Orchestrator was called with the correct userId
-    expect(mockSummarizePortfolio).toHaveBeenCalledWith('test-user-id')
+    expect(mockSummarizePortfolio).toHaveBeenCalledWith('test-user-id', expect.anything())
   })
 
   it('POST /agent/portfolio/summary response includes X-Request-Id header', async () => {
@@ -493,7 +494,7 @@ describe('Journey 4: Shareable archetype export', () => {
     expect(body.share_card_badges).toContain('vault_builder')
 
     // Orchestrator called with the correct userId
-    expect(mockDetectArchetype).toHaveBeenCalledWith('test-user-id')
+    expect(mockDetectArchetype).toHaveBeenCalledWith('test-user-id', expect.anything())
   })
 
   it('POST /agent/archetype response includes X-Request-Id header', async () => {

@@ -65,7 +65,7 @@ describe('agent routes', () => {
     const body = JSON.parse(response.body)
     expect(body.card_id).toBe('card-1')
     expect(body.confidence).toBe('HIGH')
-    expect(mockAnalyzeCard).toHaveBeenCalledWith('card-1', 'user-1')
+    expect(mockAnalyzeCard).toHaveBeenCalledWith('card-1', 'user-1', {}, expect.anything())
   })
 
   // 2. POST /agent/card/analyze — missing cardId
@@ -164,7 +164,8 @@ describe('agent routes', () => {
     expect(mockAnalyzeCardBatch).toHaveBeenCalledWith(
       ['card-1'],
       'user-1',
-      { source: 'pack_pull' }
+      { source: 'pack_pull' },
+      expect.anything()
     )
   })
 
@@ -189,7 +190,7 @@ describe('agent routes', () => {
     expect(response.statusCode).toBe(200)
     const body = JSON.parse(response.body)
     expect(body.total_cards).toBe(10)
-    expect(mockSummarizePortfolio).toHaveBeenCalledWith('user-1')
+    expect(mockSummarizePortfolio).toHaveBeenCalledWith('user-1', expect.anything())
   })
 
   // 8. POST /agent/archetype — success with archetype
@@ -212,7 +213,7 @@ describe('agent routes', () => {
     expect(response.statusCode).toBe(200)
     const body = JSON.parse(response.body)
     expect(body.archetype).toBe('VAULT_BUILDER')
-    expect(mockDetectArchetype).toHaveBeenCalledWith('user-1')
+    expect(mockDetectArchetype).toHaveBeenCalledWith('user-1', expect.anything())
   })
 
   // 9. POST /agent/archetype — progress nudge (below threshold)
