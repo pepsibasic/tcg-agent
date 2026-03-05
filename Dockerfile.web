@@ -20,4 +20,5 @@ FROM base AS runtime
 COPY --from=build /app /app
 EXPOSE 3001
 ENV PORT=3001
-CMD ["sh", "-c", "cd apps/agent-web && ../../node_modules/.bin/next start -p ${PORT:-3001}"]
+WORKDIR /app/apps/agent-web
+CMD ["npx", "next", "start", "-p", "3001"]
