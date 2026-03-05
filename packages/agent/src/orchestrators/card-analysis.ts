@@ -126,7 +126,7 @@ export async function analyzeCardBatch(
         data: {
           userId,
           cardId,
-          agentRecommended: { actions: recommendedActions },
+          agentRecommended: JSON.parse(JSON.stringify({ actions: recommendedActions })),
           userAction: 'RECOMMENDATION',
         },
       })

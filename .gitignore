@@ -4,3 +4,5 @@ dist
 .turbo
 packages/db/src/generated
 *.db-journal
+*.tsbuildinfo
+.next

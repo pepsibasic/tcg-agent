@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && tsc && cp -r src/generated dist/",
     "typecheck": "tsc --noEmit",
     "seed": "tsx src/seed.ts",
     "generate": "prisma generate",

@@ -42,7 +42,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
       data: {
         userId,
         cardId: body.cardId,
-        agentRecommended: { actions: recommendedActions },
+        agentRecommended: JSON.parse(JSON.stringify({ actions: recommendedActions })),
         userAction: 'RECOMMENDATION',
       },
     })
