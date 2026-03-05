@@ -2,7 +2,7 @@
 
 ## What This Is
 
-An embedded "collector portfolio manager" agent for the Gacha platform that helps users understand their card holdings (both vaulted and externally uploaded), surfaces actionable next steps within the Gacha economy (sell/buyback, list, redeem, ship, trade into packs), and generates shareable "Collector Identity" summaries as a viral loop. This is NOT a standalone chatbot — it's a service layer with integration endpoints and minimal embeddable UI components.
+A rules+LLM hybrid portfolio intelligence service embedded in the Gacha collectibles platform. Analyzes card holdings (vaulted and external), surfaces actionable next steps within the Gacha economy (sell/buyback, list, redeem, ship, trade into packs), and generates shareable Collector Identity summaries. Deterministic rules engine controls action eligibility; LLM provides narrative quality and archetype inference.
 
 ## Core Value
 
@@ -12,64 +12,71 @@ Every card interaction surfaces a clear, contextual "what next?" action — turn
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Card analysis engine with state-aware action eligibility — v1.0
+- ✓ Portfolio summary with concentration/liquidity signals — v1.0
+- ✓ Collector archetype inference with shareable badges — v1.0
+- ✓ External card upload and portfolio integration — v1.0
+- ✓ Vault conversion incentive logic with batch thresholds — v1.0
+- ✓ Deterministic rules engine (sole source of action eligibility) — v1.0
+- ✓ LLM layer with provider abstraction, retry/fallback, compliance guard — v1.0
+- ✓ 7 REST API endpoints with structured logging — v1.0
+- ✓ Zod schemas for all agent outputs with runtime validation — v1.0
+- ✓ Prisma data model with seed data fixtures — v1.0
+- ✓ Prompt-schema alignment with contract tests — v1.0
+- ✓ 4 MVP user journeys testable via HTTP — v1.0
 
 ### Active
 
-- [ ] Card analysis engine (CardAnalysis JSON output per card with state-aware actions)
-- [ ] Portfolio summary generation (PortfolioSummary with value estimates, concentration, liquidity)
-- [ ] Collector archetype inference (CollectorArchetype with traits, comparables, shareable text)
-- [ ] External card upload and management (manual entry, portfolio integration)
-- [ ] Vault conversion incentive logic (threshold-based recommendations, batching prompts)
-- [ ] Action eligibility rules engine (deterministic state → eligible actions mapping)
-- [ ] LLM narrative layer (prompt templates, JSON schema validation, retry/fallback)
-- [ ] REST API endpoints for all agent services
-- [ ] Zod schema definitions for all agent outputs
-- [ ] DB schema (users, cards, user_cards, external_cards, packs, marketplace stubs, actions_log)
-- [ ] Seed data fixtures for local development
-- [ ] MVP user journeys testable via HTTP (pack pull → analysis, external upload → analysis, portfolio summary, share card)
+- [ ] Price history trend signal (daily delta vs 30-day average)
+- [ ] Portfolio concentration alerts at configurable thresholds
+- [ ] Image-based card recognition for upload flow
+- [ ] Real-time price feeds from external data sources
+- [ ] Image rendering for Collector Identity share cards
+- [ ] CSV export of portfolio data
+- [ ] Redis LLM result caching
+- [ ] Adversarial prompt test suite
 
 ### Out of Scope
 
-- Full marketplace UI — only agent endpoints and integration hooks
+- Full marketplace UI — agent provides hooks, not a replacement
 - Pack-opening UI — only post-pull analysis
-- Direct "buy/sell/hold" financial advice — signals and options only
-- Image recognition for card uploads — manual entry for v1
-- Real PSA cert scraping — stub only
-- Image rendering for share cards — text + badges + JSON export only
-- Mobile app — API-first, embed in existing Gacha web UI
+- Direct "buy/sell/hold" financial advice — signals and options only (regulatory)
+- Real PSA cert scraping — PSA ToS prohibits; stub with stored grade sufficient
+- Mobile app — API-first; embed in existing Gacha web UI
 - Real-time chat/conversational agent — deterministic request/response pattern
+- Social feed / community features — shareable identity covers social touchpoints
+- Profit/loss tax reporting — regulatory risk; export raw data instead
 
 ## Context
 
-**Product model:** Gacha is a platform where users open packs of collectible cards. Cards exist in three states:
-1. **External** (user-uploaded): read-only intelligence, not actionable in Gacha economy
-2. **Vaulted** (Gacha vault): fully actionable — sell/buyback, list on marketplace, redeem/ship, trade into packs
-3. **Market** (pack inventory / marketplace): discovery layer
-
-**Viral loop:** Collector Identity Detection assigns users an archetype based on their portfolio composition. Shareable report cards with badges drive social sharing and new user acquisition.
-
-**Vault conversion funnel:** External cards are the growth lever. Agent shows what vaulting unlocks (instant liquidity, trade-into-packs, verified ranking, future credit/collateral) and encourages batch shipping when thresholds are met.
-
-**Safety posture:** No profit guarantees. Always present uncertainty. Educational framing — "signals" and "options." Compliance-safe language in all LLM outputs.
-
-## Constraints
-
-- **Tech stack**: TypeScript monorepo (pnpm), Node backend (Fastify or NestJS), Postgres (Prisma), Redis optional
-- **LLM provider**: Abstracted (OpenAI/Anthropic) with prompt templates; deterministic JSON outputs validated with zod
-- **Architecture**: Rules+LLM hybrid — hard rules for state/actions, LLM for narrative + identity inference
-- **Observability**: Structured logs, request IDs, basic metrics from day one
-- **Output format**: All agent outputs must be valid JSON conforming to zod schemas; retry/fallback on invalid LLM responses
+Shipped v1.0 with 26,517 LOC TypeScript across 4 packages.
+Tech stack: pnpm monorepo, Turborepo, Fastify, Prisma, Vercel AI SDK, Zod, Vitest.
+326 tests passing (102 schema, 102 rules, 13 contract, 14 HTTP journey, others).
+5 low-severity tech debt items documented (Nyquist validation, double-write, identity trigger stub, migration not live-tested, journey test fixture gap).
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Fastify over NestJS | Lighter weight, faster startup, simpler for service-oriented architecture | — Pending |
-| Rules+LLM hybrid | Deterministic action eligibility (no hallucinated actions) + LLM for narrative quality | — Pending |
-| Zod for all schemas | Runtime validation of LLM outputs, shared types between API and agent | — Pending |
-| pnpm monorepo | packages/agent, packages/schemas, packages/db, apps/api structure | — Pending |
-| No image rendering for share cards | Text + badges + JSON keeps v1 simple; image gen is a v2 feature | — Pending |
+| Fastify over NestJS | Lighter weight, faster startup, simpler for service-oriented architecture | ✓ Good — clean plugin system, fast DX |
+| Rules+LLM hybrid | Deterministic action eligibility (no hallucinated actions) + LLM for narrative quality | ✓ Good — strict separation maintained across all phases |
+| Zod for all schemas | Runtime validation of LLM outputs, shared types between API and agent | ✓ Good — caught prompt-schema drift, enabled contract tests |
+| pnpm monorepo | packages/agent, packages/schemas, packages/db, apps/api structure | ✓ Good — clean dependency boundaries |
+| No image rendering for share cards | Text + badges + JSON keeps v1 simple | ✓ Good — v1 focus preserved |
+| Vercel AI SDK for LLM abstraction | Provider-agnostic generateObject with native Zod schema support | ✓ Good — single import handles OpenAI and Anthropic |
+| Narrow LLM schemas | Separate LLM schema (fewer fields) from API schema; orchestrator merges after LLM call | ✓ Good — eliminated validation failures on orchestrator-computed fields |
+| Compliance guard with explicit field list | Callers declare narrative fields to scrub — prevents accidental scrubbing of identity_tags or cert numbers | ✓ Good — safe and predictable |
+| Mock at orchestrator boundary in tests | Integration tests mock @tcg/agent not LLM layer — exercises real route handler logic | ✓ Good — catches wiring bugs |
+| Contract tests for prompt-schema alignment | String-match strategy catches additions and removals without fragile regex | ✓ Good — prevents silent drift |
+
+## Constraints
+
+- **Tech stack**: TypeScript monorepo (pnpm), Fastify, Postgres (Prisma), Redis optional
+- **LLM provider**: Abstracted (OpenAI/Anthropic) via Vercel AI SDK; deterministic JSON outputs validated with Zod
+- **Architecture**: Rules+LLM hybrid — hard rules for state/actions, LLM for narrative + identity inference
+- **Observability**: Structured logs, request IDs, actions audit trail from day one
+- **Output format**: All agent outputs must be valid JSON conforming to Zod schemas; retry/fallback on invalid LLM responses
+- **Safety**: No profit guarantees, always present uncertainty, compliance-safe language in all LLM outputs
 
 ---
-*Last updated: 2026-03-04 after initialization*
+*Last updated: 2026-03-05 after v1.0 milestone*
