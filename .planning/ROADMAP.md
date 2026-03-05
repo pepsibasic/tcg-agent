@@ -124,7 +124,11 @@ Plans:
   4. card_id is injected by the orchestrator after LLM call (not requested from LLM)
   5. sanitizeInput/wrapUserInput called in portfolio-summary and archetype orchestrators before prompt rendering
   6. Contract tests verify each prompt template's field list matches its Zod schema keys
-**Plans:** 0 plans
+**Plans:** 2 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Fix all 3 prompt templates and wire sanitization in portfolio-summary + archetype orchestrators
+- [ ] 06-02-PLAN.md — Contract tests verifying prompt-schema alignment for all 3 templates
 
 ### Phase 7: Cross-Phase Wiring and Test Fidelity
 **Goal**: Vault conversion recommendations are surfaced via the API, LLM diagnostic logging fires in production, batch card analysis writes audit entries, and integration test fixtures use schema-valid data
@@ -141,7 +145,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -150,7 +154,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
-| 6. Prompt-Schema Alignment | 0 | Not started | - |
+| 6. Prompt-Schema Alignment | 0/2 | Not started | - |
 | 7. Cross-Phase Wiring and Test Fidelity | 0 | Not started | - |
 
 ---
