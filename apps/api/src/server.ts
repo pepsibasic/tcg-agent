@@ -1,4 +1,5 @@
 import Fastify from 'fastify'
+import cors from '@fastify/cors'
 import { agentRoutes } from './routes/agent.js'
 import { externalCardRoutes } from './routes/external-cards.js'
 import { vaultRoutes } from './routes/vault.js'
@@ -8,6 +9,8 @@ const server = Fastify({
   logger: true,
   genReqId: (req) => (req.headers['x-request-id'] as string) || crypto.randomUUID(),
 })
+
+await server.register(cors, { origin: true })
 
 server.addHook('onSend', async (request, reply) => {
   reply.header('X-Request-Id', request.id)

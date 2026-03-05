@@ -12,6 +12,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
     "@tcg/agent": "workspace:*",
     "@tcg/db": "workspace:*",
     "@tcg/schemas": "workspace:*",
