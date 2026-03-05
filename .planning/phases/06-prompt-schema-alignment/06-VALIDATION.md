@@ -19,7 +19,7 @@ created: 2026-03-05
 |----------|-------|
 | **Framework** | Vitest |
 | **Config file** | `packages/agent/vitest.config.ts` |
-| **Quick run command** | `cd packages/agent && pnpm vitest run src/llm/__tests__/prompts-contract.test.ts` |
+| **Quick run command** | `cd packages/agent && pnpm vitest run src/llm/__tests__/prompt-schema-contract.test.ts` |
 | **Full suite command** | `pnpm --filter @tcg/agent test` |
 | **Estimated runtime** | ~5 seconds |
 
@@ -38,20 +38,17 @@ created: 2026-03-05
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 06-01-01 | 01 | 1 | LLM-02, CARD-01 | contract | `pnpm --filter @tcg/agent test` | ❌ W0 | ⬜ pending |
-| 06-01-02 | 01 | 1 | LLM-02, PORT-01, PORT-03 | contract | `pnpm --filter @tcg/agent test` | ❌ W0 | ⬜ pending |
-| 06-01-03 | 01 | 1 | LLM-02, IDENT-01 | contract | `pnpm --filter @tcg/agent test` | ❌ W0 | ⬜ pending |
-| 06-02-01 | 02 | 1 | LLM-05 | unit | `pnpm --filter @tcg/agent test` | ❌ W0 | ⬜ pending |
-| 06-02-02 | 02 | 1 | LLM-05 | unit | `pnpm --filter @tcg/agent test` | ❌ W0 | ⬜ pending |
-| 06-03-01 | 03 | 2 | CARD-04, PORT-01, IDENT-01, IDENT-02, IDENT-03 | contract | `pnpm --filter @tcg/agent test` | ❌ W0 | ⬜ pending |
+| 06-01-01 | 01 | 1 | LLM-02, CARD-01 | contract | `pnpm --filter @tcg/agent test` | yes (prompts.test.ts) | pending |
+| 06-01-02 | 01 | 1 | LLM-02, LLM-05, PORT-01, PORT-03, CARD-04, IDENT-01, IDENT-02, IDENT-03 | contract | `pnpm --filter @tcg/agent test && pnpm --filter @tcg/schemas test` | yes (existing tests) | pending |
+| 06-02-01 | 02 | 2 | LLM-02, CARD-01, CARD-04, PORT-01, PORT-03, IDENT-01, IDENT-02, IDENT-03 | contract | `pnpm --filter @tcg/agent test` | W0 | pending |
 
-*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
+*Status: pending / green / red / flaky*
 
 ---
 
 ## Wave 0 Requirements
 
-- [ ] `packages/agent/src/llm/__tests__/prompts-contract.test.ts` — contract tests for LLM-02, CARD-01, CARD-04, PORT-01, PORT-03, IDENT-01, IDENT-02, IDENT-03
+- [ ] `packages/agent/src/llm/__tests__/prompt-schema-contract.test.ts` — contract tests for LLM-02, CARD-01, CARD-04, PORT-01, PORT-03, IDENT-01, IDENT-02, IDENT-03
 - [ ] Existing test infrastructure covers all other requirements (Vitest already configured)
 
 *Existing infrastructure covers sanitization testing (11 tests in sanitize.test.ts).*
