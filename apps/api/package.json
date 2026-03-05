@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "dev": "tsx watch --env-file=../../.env src/server.ts",
     "test": "vitest run",
-    "job:snapshot-prices": "tsx --env-file=../../.env src/jobs/snapshot-prices.ts"
+    "job:snapshot-prices": "tsx --env-file=../../.env src/jobs/snapshot-prices.ts",
+    "job:trigger-alerts": "tsx --env-file=../../.env src/jobs/trigger-alerts.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",

@@ -36,6 +36,7 @@ model User {
   userCards      UserCard[]
   externalCards  ExternalCard[]
   actionsLog     ActionsLog[]
+  alerts         Alert[]
 
   @@map("users")
 }
@@ -153,6 +154,47 @@ model CardPriceHistory {
   @@index([cardKey])
   @@index([asOfDate])
   @@map("card_price_history")
+}
+
+model Alert {
+  id        String   @id @default(cuid())
+  userId    String   @db.Uuid
+  type      String   // PRICE_THRESHOLD
+  cardKey   String?
+  threshold Float?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@map("alerts")
+}
+
+model WatchlistItem {
+  id        String   @id @default(cuid())
+  userId    String   @db.Uuid
+  cardKey   String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, cardKey])
+  @@index([userId])
+  @@index([cardKey])
+  @@map("watchlist_items")
+}
+
+model AlertEvent {
+  id          String   @id @default(cuid())
+  alertId     String
+  userId      String   @db.Uuid
+  cardKey     String?
+  triggeredAt DateTime @default(now())
+  payload     Json
+  status      String   @default("NEW") // NEW|SEEN
+
+  @@index([userId])
+  @@index([alertId])
+  @@index([status])
+  @@map("alert_events")
 }
 
 model ActionsLog {

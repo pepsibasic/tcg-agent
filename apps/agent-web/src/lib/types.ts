@@ -80,6 +80,17 @@ export interface TopCard {
   confidence: PriceConfidenceLevel
 }
 
+export type SignalType = 'SELL_STRENGTH' | 'HOLD_DIP' | 'DIVERSIFY' | 'UNLOCK_LIQUIDITY'
+
+export interface DecisionSignal {
+  type: SignalType
+  title: string
+  body: string
+  severity: 'info' | 'warning'
+  related_card_id?: string
+  suggested_action?: Action
+}
+
 export interface PortfolioSummaryResponse {
   userId: string
   totalValueEst: number
@@ -96,6 +107,12 @@ export interface PortfolioSummaryResponse {
   top_cards?: TopCard[]
   portfolio_value_market?: number
   portfolio_value_liquidity?: number
+  liquidity_score?: number
+  liquidity_level?: 'HIGH' | 'MEDIUM' | 'LOW'
+  concentration_pct?: number
+  concentration_level?: 'LOW' | 'MEDIUM' | 'HIGH'
+  top_category?: string
+  signals?: DecisionSignal[]
 }
 
 export interface ArchetypeResponse {
@@ -136,6 +153,51 @@ export interface PortfolioChangesResponse {
   delta_pct: number | null
   coverage_pct: number
   top_movers: TopMover[]
+}
+
+export interface MarketMover {
+  card_key: string
+  title: string
+  price: number
+  change_pct: number
+}
+
+export interface MarketMoverEntry {
+  card_key: string
+  title: string
+  price: number
+}
+
+export interface MarketMoversResponse {
+  top_gainers: MarketMover[]
+  top_losers: MarketMover[]
+  most_valuable: MarketMoverEntry[]
+}
+
+export interface WatchlistEntry {
+  card_key: string
+  title?: string
+  latest_price_usd?: number | null
+  change_7d?: number | null
+  sparkline_30d?: number[]
+}
+
+export interface WatchlistResponse {
+  items: WatchlistEntry[]
+}
+
+export interface AlertEventDTO {
+  id: string
+  type: string
+  card_key?: string | null
+  title: string
+  body: string
+  triggered_at: string
+  status: 'NEW' | 'SEEN'
+}
+
+export interface AlertEventsResponse {
+  events: AlertEventDTO[]
 }
 
 export interface ApiErrorBody {

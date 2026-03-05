@@ -13,4 +13,11 @@ export * from './commentary/index.js'
 export { getCardPrice, clearPriceCache } from './services/pricing-service.js'
 export type { PriceData, PriceConfidenceLevel, PriceSource } from './services/pricing-service.js'
 
+export { computeDecisionSignals } from './services/decision-signals.js'
+export type { SignalInput } from './services/decision-signals.js'
+
+export { computeMarketMovers } from './services/market-movers.js'
+export type { MarketMoversResult, MarketMover, MarketMoverEntry } from './services/market-movers.js'
+
 export { runPriceSnapshot } from './jobs/snapshot-prices.js'
+export { runTriggerAlerts } from './jobs/trigger-alerts.js'

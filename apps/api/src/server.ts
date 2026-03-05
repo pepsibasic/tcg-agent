@@ -5,6 +5,10 @@ import { externalCardRoutes } from './routes/external-cards.js'
 import { vaultRoutes } from './routes/vault.js'
 import { actionsRoutes } from './routes/actions.js'
 import { pricingRoutes } from './routes/pricing.js'
+import { alertsRoutes } from './routes/alerts.js'
+import { marketRoutes } from './routes/market.js'
+import { watchlistRoutes } from './routes/watchlist.js'
+import { notificationsRoutes } from './routes/notifications.js'
 
 const server = Fastify({
   logger: true,
@@ -26,6 +30,10 @@ server.register(externalCardRoutes)
 server.register(vaultRoutes)
 server.register(actionsRoutes)
 server.register(pricingRoutes)
+server.register(alertsRoutes)
+server.register(marketRoutes)
+server.register(watchlistRoutes)
+server.register(notificationsRoutes)
 
 const port = Number(process.env.PORT) || 3000
 

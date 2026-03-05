@@ -11,6 +11,8 @@ import { rankPortfolioActions } from '../rules/ranking.js'
 import { buildBasicPortfolioCommentary } from '../commentary/basic.js'
 import { getCardPrice } from '../services/pricing-service.js'
 import type { PriceConfidenceLevel } from '../services/pricing-service.js'
+import { computeDecisionSignals } from '../services/decision-signals.js'
+import type { SignalInput } from '../services/decision-signals.js'
 
 // ─── Return types ───────────────────────────────────────────────────────────
 
@@ -209,6 +211,82 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
     portfolioValueLiquidity += price.buyback_price ?? 0
   }
 
+  // 2d. Compute liquidity score
+  const liquidityRatio = portfolioValueMarket > 0
+    ? portfolioValueLiquidity / portfolioValueMarket
+    : 0
+  const liquidityScore = Math.round(liquidityRatio * 100) / 10 // round to 1 decimal
+  const liquidityLevel: 'HIGH' | 'MEDIUM' | 'LOW' =
+    liquidityScore >= 7 ? 'HIGH' : liquidityScore >= 4 ? 'MEDIUM' : 'LOW'
+
+  // 2e. Compute concentration risk
+  const topCategory = dbBreakdown.length > 0
+    ? [...dbBreakdown].sort((a, b) => b.totalValue - a.totalValue)[0]
+    : null
+  const concentrationPct = topCategory && totalValueEst > 0
+    ? topCategory.totalValue / totalValueEst
+    : 0
+  const concentrationLevel: 'LOW' | 'MEDIUM' | 'HIGH' =
+    concentrationPct >= 0.60 ? 'HIGH' : concentrationPct >= 0.40 ? 'MEDIUM' : 'LOW'
+  const topCategoryName = topCategory?.ipCategory ?? 'Unknown'
+
+  // 2f. Compute decision signals
+  // Build price changes map from price history for top cards
+  const priceChanges = new Map<string, { change_7d: number | null; change_30d: number | null }>()
+  // We'll use the pricing data we already have - fetch history for top cards
+  const historyResults = await Promise.all(
+    topCards.map(async (card) => {
+      try {
+        const history = await prisma.cardPriceHistory.findMany({
+          where: { cardKey: card.title },
+          orderBy: { asOfDate: 'desc' },
+          take: 31,
+        })
+        if (history.length < 2) return { id: card.id, change_7d: null, change_30d: null }
+
+        const latest = history[0]?.marketPriceUsd
+        const weekAgo = history.find((h, i) => i >= 6)?.marketPriceUsd
+        const monthAgo = history[history.length - 1]?.marketPriceUsd
+
+        return {
+          id: card.id,
+          change_7d: latest && weekAgo && weekAgo > 0 ? (latest - weekAgo) / weekAgo : null,
+          change_30d: latest && monthAgo && monthAgo > 0 ? (latest - monthAgo) / monthAgo : null,
+        }
+      } catch {
+        return { id: card.id, change_7d: null, change_30d: null }
+      }
+    })
+  )
+  for (const r of historyResults) {
+    priceChanges.set(r.id, { change_7d: r.change_7d, change_30d: r.change_30d })
+  }
+
+  // Compute uploaded vs verified values
+  let uploadedValueUsd = 0
+  let verifiedValueUsd = 0
+  for (const ec of externalCards) {
+    uploadedValueUsd += Number(ec.estimatedValue ?? 0)
+  }
+  for (const uc of userCards) {
+    if (uc.state === 'VAULTED') {
+      verifiedValueUsd += Number(uc.estimatedValue ?? 0)
+    }
+  }
+
+  const signalInput: SignalInput = {
+    topCards,
+    priceChanges,
+    concentration_pct: concentrationPct,
+    concentration_level: concentrationLevel,
+    top_category: topCategoryName,
+    portfolio_value_liquidity: portfolioValueLiquidity,
+    portfolio_value_market: portfolioValueMarket,
+    uploaded_value_usd: uploadedValueUsd,
+    verified_value_usd: verifiedValueUsd,
+  }
+  const signals = computeDecisionSignals(signalInput)
+
   // 3. Render prompt
   let vaultedCount = 0
   for (const uc of userCards) {
@@ -280,6 +358,12 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
         top_cards: topCards,
         portfolio_value_market: portfolioValueMarket,
         portfolio_value_liquidity: portfolioValueLiquidity,
+        liquidity_score: liquidityScore,
+        liquidity_level: liquidityLevel,
+        concentration_pct: concentrationPct,
+        concentration_level: concentrationLevel,
+        top_category: topCategoryName,
+        signals,
       },
     }
   }
@@ -305,6 +389,12 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
       top_cards: topCards,
       portfolio_value_market: portfolioValueMarket,
       portfolio_value_liquidity: portfolioValueLiquidity,
+      liquidity_score: liquidityScore,
+      liquidity_level: liquidityLevel,
+      concentration_pct: concentrationPct,
+      concentration_level: concentrationLevel,
+      top_category: topCategoryName,
+      signals,
     },
   }
 }

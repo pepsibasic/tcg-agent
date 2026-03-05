@@ -24,8 +24,14 @@ export default function RootLayout({
               <Link href="/portfolio" className="text-gray-600 hover:text-gray-900">
                 Portfolio
               </Link>
+              <Link href="/market" className="text-gray-600 hover:text-gray-900">
+                Market
+              </Link>
+              <Link href="/watchlist" className="text-gray-600 hover:text-gray-900">
+                Watchlist
+              </Link>
               <Link href="/upload" className="text-gray-600 hover:text-gray-900">
-                Add Cards
+                Upload
               </Link>
             </div>
           </div>

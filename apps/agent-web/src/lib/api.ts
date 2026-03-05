@@ -4,6 +4,9 @@ import type {
   ArchetypeResponse,
   PriceHistoryResponse,
   PortfolioChangesResponse,
+  MarketMoversResponse,
+  WatchlistResponse,
+  AlertEventsResponse,
   ApiErrorBody,
 } from './types'
 
@@ -109,5 +112,47 @@ export const api = {
 
   getPortfolioChanges(range: '7d' | '30d' = '7d') {
     return apiFetch<PortfolioChangesResponse>(`/portfolio/changes?range=${range}`)
+  },
+
+  createAlert(data: { type: string; cardKey: string; threshold: number }) {
+    return apiFetch<{ id: string }>('/alerts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  },
+
+  getAlerts() {
+    return apiFetch<Array<{ id: string; type: string; cardKey: string | null; threshold: number | null; createdAt: string }>>('/alerts')
+  },
+
+  getMarketMovers(range: '24h' | '7d' = '7d') {
+    return apiFetch<MarketMoversResponse>(`/market/movers?range=${range}`)
+  },
+
+  getWatchlist() {
+    return apiFetch<WatchlistResponse>('/watchlist')
+  },
+
+  addWatchlist(cardKey: string) {
+    return apiFetch<{ status: string }>('/watchlist', {
+      method: 'POST',
+      body: JSON.stringify({ cardKey }),
+    })
+  },
+
+  removeWatchlist(cardKey: string) {
+    return apiFetch<void>(`/watchlist/${encodeURIComponent(cardKey)}`, {
+      method: 'DELETE',
+    })
+  },
+
+  getNotifications() {
+    return apiFetch<AlertEventsResponse>('/notifications')
+  },
+
+  markNotificationSeen(id: string) {
+    return apiFetch<{ status: string }>(`/notifications/${encodeURIComponent(id)}/seen`, {
+      method: 'POST',
+    })
   },
 }

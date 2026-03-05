@@ -25,11 +25,24 @@ export type { AgentCommentary, Narrative, NextBestMove } from './api/commentary.
 export { CardAnalysisResponseSchema } from './api/card-analysis.js'
 export type { CardAnalysisResponse } from './api/card-analysis.js'
 
-export { PortfolioSummaryResponseSchema, TopCardSchema } from './api/portfolio-summary.js'
-export type { PortfolioSummaryResponse, TopCard } from './api/portfolio-summary.js'
+export { PortfolioSummaryResponseSchema, TopCardSchema, DecisionSignalSchema } from './api/portfolio-summary.js'
+export type { PortfolioSummaryResponse, TopCard, DecisionSignal } from './api/portfolio-summary.js'
 
 export { ArchetypeResponseSchema } from './api/archetype.js'
 export type { ArchetypeResponse } from './api/archetype.js'
+
+export {
+  WatchlistEntrySchema,
+  WatchlistResponseSchema,
+  AlertEventSchema,
+  AlertEventsResponseSchema,
+} from './api/watchlist.js'
+export type {
+  WatchlistEntry,
+  WatchlistResponse,
+  AlertEventDTO,
+  AlertEventsResponse,
+} from './api/watchlist.js'
 
 export {
   PriceHistoryRangeSchema,

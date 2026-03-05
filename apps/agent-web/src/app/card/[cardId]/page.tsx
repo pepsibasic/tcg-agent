@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import { PageLoading } from '@/components/ui/loading'
 import { ModeBadge } from '@/components/portfolio/agent-notes'
 import { Sparkline } from '@/components/ui/sparkline'
+import { WatchButton } from '@/components/watch-button'
 
 const confidenceColors: Record<string, string> = {
   HIGH: 'bg-green-100 text-green-800',
@@ -91,7 +92,10 @@ export default function CardDetailPage() {
 
   return (
     <div>
-      <h1 className="mb-2 text-2xl font-bold text-gray-900">Card Analysis</h1>
+      <div className="mb-2 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-900">Card Analysis</h1>
+        <WatchButton cardKey={analysis.identity_tags?.[0] || params.cardId} />
+      </div>
       <p className="mb-6 text-sm text-gray-500">ID: {analysis.card_id}</p>
 
       {toast && (

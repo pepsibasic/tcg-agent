@@ -98,6 +98,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
         operation: 'portfolio_summary',
         mode: result.data.agent_commentary.mode,
         actions_count: result.data.recommended_actions.length,
+        signals_count: result.data.signals?.length ?? 0,
       },
       'recommendation_shown'
     )
@@ -110,6 +111,7 @@ export async function agentRoutes(fastify: FastifyInstance) {
           event_type: 'portfolio_summary',
           mode: result.data.agent_commentary.mode,
           actions: result.data.recommended_actions,
+          signals: result.data.signals ?? [],
         })),
         userAction: 'RECOMMENDATION',
       },

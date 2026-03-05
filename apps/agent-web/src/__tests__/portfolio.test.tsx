@@ -98,6 +98,7 @@ vi.mock('@/lib/api', () => ({
     getArchetype: vi.fn().mockResolvedValue(mockArchetype),
     getPortfolioChanges: vi.fn().mockResolvedValue(mockChanges),
     getPriceHistory: vi.fn().mockResolvedValue(mockHistory),
+    getNotifications: vi.fn().mockResolvedValue({ events: [] }),
   },
 }))
 
