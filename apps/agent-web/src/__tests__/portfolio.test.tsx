@@ -19,8 +19,12 @@ const { mockPortfolio, mockArchetype } = vi.hoisted(() => ({
     ],
     agent_commentary: {
       mode: 'BASIC' as const,
-      headline: 'Your portfolio is worth $1,250.',
-      bullets: ['Total estimated value: $1,250 across 8 cards.', '2 IP categories tracked.'],
+      headline: 'Your portfolio is worth $5,420 with $3,100 instantly liquid.',
+      bullets: [
+        'Your most valuable card is Manga Luffy PSA10.',
+        '3 cards are vaulted and can be sold immediately.',
+        '2 uploaded cards could unlock liquidity if vaulted.',
+      ],
       next_best_moves: [{
         title: 'Buyback',
         rationale: 'Sell back your top card',
@@ -29,6 +33,37 @@ const { mockPortfolio, mockArchetype } = vi.hoisted(() => ({
     },
     priceDataAsOf: '2024-01-15T00:00:00Z',
     priceConfidence: 'RECENT_24H' as const,
+    top_cards: [
+      {
+        id: 'card-1',
+        title: 'Manga Luffy PSA10',
+        grade: 'PSA 10',
+        state: 'VAULTED' as const,
+        market_price: 2500,
+        buyback_price: 1800,
+        confidence: 'HIGH' as const,
+      },
+      {
+        id: 'card-2',
+        title: 'Charizard VMAX',
+        grade: 'PSA 9',
+        state: 'VAULTED' as const,
+        market_price: 1200,
+        buyback_price: 850,
+        confidence: 'MEDIUM' as const,
+      },
+      {
+        id: 'card-3',
+        title: 'Naruto Sage Mode',
+        grade: null,
+        state: 'EXTERNAL' as const,
+        market_price: 320,
+        buyback_price: null,
+        confidence: 'LOW' as const,
+      },
+    ],
+    portfolio_value_market: 5420,
+    portfolio_value_liquidity: 3100,
   },
   mockArchetype: {
     name: 'IP Loyalist',
@@ -74,14 +109,15 @@ describe('PortfolioPage', () => {
       expect(screen.getByText('Your Portfolio')).toBeInTheDocument()
     })
 
+    // Hero stats should show portfolio value, instant liquidity, card count
     await waitFor(() => {
-      // $1,250 appears in both hero stats and wrapped widget
-      expect(screen.getAllByText('$1,250').length).toBeGreaterThanOrEqual(1)
+      expect(screen.getByText('Portfolio Value')).toBeInTheDocument()
     })
-
-    expect(screen.getByText('65/100')).toBeInTheDocument()
-    expect(screen.getByText('72/100')).toBeInTheDocument()
-    expect(screen.getByText('RECENT 24H')).toBeInTheDocument()
+    expect(screen.getByText('Instant Liquidity')).toBeInTheDocument()
+    expect(screen.getByText('Card Count')).toBeInTheDocument()
+    expect(screen.getByText('$5,420')).toBeInTheDocument()
+    expect(screen.getByText('$3,100')).toBeInTheDocument()
+    expect(screen.getByText('8')).toBeInTheDocument()
   })
 
   it('renders archetype card', async () => {
@@ -105,6 +141,33 @@ describe('PortfolioPage', () => {
     expect(screen.getByText('One Piece')).toBeInTheDocument()
   })
 
+  it('renders top cards table', async () => {
+    render(<PortfolioPage />)
+
+    await waitFor(() => {
+      expect(screen.getByText('Top Cards')).toBeInTheDocument()
+    })
+
+    // Card titles
+    expect(screen.getByText('Manga Luffy PSA10')).toBeInTheDocument()
+    expect(screen.getByText('Charizard VMAX')).toBeInTheDocument()
+    expect(screen.getByText('Naruto Sage Mode')).toBeInTheDocument()
+
+    // Grades
+    expect(screen.getByText('PSA 10')).toBeInTheDocument()
+    expect(screen.getByText('PSA 9')).toBeInTheDocument()
+
+    // Confidence badges
+    expect(screen.getByText('HIGH')).toBeInTheDocument()
+    expect(screen.getByText('MEDIUM')).toBeInTheDocument()
+    expect(screen.getByText('LOW')).toBeInTheDocument()
+
+    // States
+    const vaultedBadges = screen.getAllByText('VAULTED')
+    expect(vaultedBadges.length).toBe(2)
+    expect(screen.getByText('EXTERNAL')).toBeInTheDocument()
+  })
+
   it('renders recommended actions', async () => {
     render(<PortfolioPage />)
 
@@ -120,7 +183,7 @@ describe('PortfolioPage', () => {
     await waitFor(() => {
       expect(screen.getByText('Agent Notes')).toBeInTheDocument()
     })
-    expect(screen.getByText('Your portfolio is worth $1,250.')).toBeInTheDocument()
+    expect(screen.getByText('Your portfolio is worth $5,420 with $3,100 instantly liquid.')).toBeInTheDocument()
     expect(screen.getByText('Basic Mode')).toBeInTheDocument()
   })
 })

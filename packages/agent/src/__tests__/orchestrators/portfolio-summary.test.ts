@@ -23,6 +23,17 @@ vi.mock('../../llm/prompts.js', () => ({
   renderPrompt: vi.fn(() => ({ system: 'system prompt', user: 'user prompt' })),
 }))
 
+// Mock pricing service
+vi.mock('../../services/pricing-service.js', () => ({
+  getCardPrice: vi.fn(async () => ({
+    market_price: null,
+    buyback_price: null,
+    confidence: 'NONE',
+    source: 'seed',
+    updated_at: new Date().toISOString(),
+  })),
+}))
+
 import { prisma } from '@tcg/db'
 import { generateWithRetry } from '../../llm/generate.js'
 import { renderPrompt } from '../../llm/prompts.js'

@@ -9,3 +9,6 @@ export * from './llm/index.js'
 export * from './orchestrators/index.js'
 
 export * from './commentary/index.js'
+
+export { getCardPrice, clearPriceCache } from './services/pricing-service.js'
+export type { PriceData, PriceConfidenceLevel, PriceSource } from './services/pricing-service.js'

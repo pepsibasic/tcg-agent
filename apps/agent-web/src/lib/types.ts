@@ -68,6 +68,18 @@ export interface PortfolioBreakdown {
   percentOfPortfolio: number
 }
 
+export type PriceConfidenceLevel = 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE'
+
+export interface TopCard {
+  id: string
+  title: string
+  grade: string | null
+  state: 'VAULTED' | 'EXTERNAL'
+  market_price: number | null
+  buyback_price: number | null
+  confidence: PriceConfidenceLevel
+}
+
 export interface PortfolioSummaryResponse {
   userId: string
   totalValueEst: number
@@ -81,6 +93,9 @@ export interface PortfolioSummaryResponse {
   agent_commentary?: AgentCommentary
   priceDataAsOf: string | null
   priceConfidence: PriceConfidence
+  top_cards?: TopCard[]
+  portfolio_value_market?: number
+  portfolio_value_liquidity?: number
 }
 
 export interface ArchetypeResponse {

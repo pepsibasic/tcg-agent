@@ -1,4 +1,4 @@
-import type { Action, AgentCommentary, Narrative, NextBestMove } from '@tcg/schemas'
+import type { Action, AgentCommentary, Narrative, NextBestMove, TopCard } from '@tcg/schemas'
 
 interface PortfolioContext {
   totalValueEst: number
@@ -6,28 +6,64 @@ interface PortfolioContext {
   priceConfidence: string
   liquidityScore: number
   concentrationScore: number
+  topCards?: TopCard[]
+  portfolioValueMarket?: number
+  portfolioValueLiquidity?: number
+  vaultedCount?: number
+  externalCount?: number
 }
 
 export function buildBasicPortfolioCommentary(
   ctx: PortfolioContext,
   rankedActions: Action[]
 ): AgentCommentary {
+  const totalCards = ctx.breakdown.reduce((sum, b) => sum + b.cardCount, 0)
+  const fmt = (n: number) => `$${Math.round(n).toLocaleString()}`
+
+  const marketValue = ctx.portfolioValueMarket ?? ctx.totalValueEst
+  const liquidityValue = ctx.portfolioValueLiquidity ?? 0
+
   const topIp = ctx.breakdown.length > 0
     ? [...ctx.breakdown].sort((a, b) => b.totalValue - a.totalValue)[0]
     : null
 
-  const totalCards = ctx.breakdown.reduce((sum, b) => sum + b.cardCount, 0)
-  const fmt = (n: number) => `$${Math.round(n).toLocaleString()}`
+  // Headline: reference portfolio value and liquidity, or IP concentration as fallback
+  let headline: string
+  if (liquidityValue > 0) {
+    headline = `Your portfolio is worth ${fmt(marketValue)} with ${fmt(liquidityValue)} instantly liquid.`
+  } else if (topIp) {
+    headline = `Your portfolio is worth ${fmt(marketValue)}, concentrated in ${topIp.ipCategory} (${Math.round(topIp.percentOfPortfolio * 100)}%).`
+  } else {
+    headline = `Your portfolio is worth ${fmt(marketValue)} across ${totalCards} cards.`
+  }
 
-  const headline = topIp
-    ? `Your portfolio is worth ${fmt(ctx.totalValueEst)}, concentrated in ${topIp.ipCategory} (${Math.round(topIp.percentOfPortfolio * 100)}%).`
-    : `Your portfolio is worth ${fmt(ctx.totalValueEst)} across ${totalCards} cards.`
+  const bullets: string[] = []
 
-  const bullets: string[] = [
-    `Total estimated value: ${fmt(ctx.totalValueEst)} across ${totalCards} cards.`,
-    `${ctx.breakdown.length} IP categories tracked.`,
-    `Price data confidence: ${ctx.priceConfidence.replaceAll('_', ' ').toLowerCase()}.`,
-  ]
+  // Reference top card if available
+  if (ctx.topCards && ctx.topCards.length > 0) {
+    const top = ctx.topCards[0]
+    bullets.push(`Your most valuable card is ${top.title}${top.grade ? ` ${top.grade}` : ''}.`)
+  }
+
+  // Reference vaulted vs external cards
+  const vaultedCount = ctx.vaultedCount ?? 0
+  const externalCount = ctx.externalCount ?? 0
+  if (vaultedCount > 0) {
+    bullets.push(`${vaultedCount} card${vaultedCount === 1 ? ' is' : 's are'} vaulted and can be sold immediately.`)
+  }
+  if (externalCount > 0) {
+    bullets.push(`${externalCount} uploaded card${externalCount === 1 ? '' : 's'} could unlock liquidity if vaulted.`)
+  }
+
+  // Fallback general bullets if no card-level data available
+  if (bullets.length === 0) {
+    bullets.push(`Total estimated value: ${fmt(marketValue)} across ${totalCards} cards.`)
+    bullets.push(`${ctx.breakdown.length} IP categories tracked.`)
+    bullets.push(`Price data confidence: ${ctx.priceConfidence.replaceAll('_', ' ').toLowerCase()}.`)
+  } else if (ctx.breakdown.length > 0) {
+    // Supplement card-level bullets with IP tracking info
+    bullets.push(`${ctx.breakdown.length} IP categories tracked.`)
+  }
 
   if (rankedActions.length > 0) {
     bullets.push(`Top suggested action: ${rankedActions[0].ui_copy}`)

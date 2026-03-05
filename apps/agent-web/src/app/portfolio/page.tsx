@@ -13,6 +13,7 @@ import { HeroStats } from '@/components/portfolio/hero-stats'
 import { ArchetypeCard } from '@/components/portfolio/archetype-card'
 import { Goals } from '@/components/portfolio/goals'
 import { TopAssets } from '@/components/portfolio/top-assets'
+import { TopCards } from '@/components/portfolio/top-cards'
 import { NextActions } from '@/components/portfolio/next-actions'
 import { Wrapped } from '@/components/portfolio/wrapped'
 import { AgentNotesCard } from '@/components/portfolio/agent-notes'
@@ -81,6 +82,9 @@ export default function PortfolioPage() {
           <AgentNotesCard commentary={portfolio.agent_commentary} />
         )}
         <HeroStats portfolio={portfolio} />
+        {portfolio.top_cards && portfolio.top_cards.length > 0 && (
+          <TopCards cards={portfolio.top_cards} />
+        )}
         {archetype && (
           <ArchetypeCard
             archetype={archetype}

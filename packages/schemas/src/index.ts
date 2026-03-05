@@ -25,8 +25,8 @@ export type { AgentCommentary, Narrative, NextBestMove } from './api/commentary.
 export { CardAnalysisResponseSchema } from './api/card-analysis.js'
 export type { CardAnalysisResponse } from './api/card-analysis.js'
 
-export { PortfolioSummaryResponseSchema } from './api/portfolio-summary.js'
-export type { PortfolioSummaryResponse } from './api/portfolio-summary.js'
+export { PortfolioSummaryResponseSchema, TopCardSchema } from './api/portfolio-summary.js'
+export type { PortfolioSummaryResponse, TopCard } from './api/portfolio-summary.js'
 
 export { ArchetypeResponseSchema } from './api/archetype.js'
 export type { ArchetypeResponse } from './api/archetype.js'

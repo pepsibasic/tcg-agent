@@ -1,6 +1,6 @@
 import { prisma } from '@tcg/db'
 import { PortfolioSummaryLLMSchema } from '@tcg/schemas'
-import type { PortfolioSummaryResponse, PriceConfidence, Action, AgentCommentary } from '@tcg/schemas'
+import type { PortfolioSummaryResponse, PriceConfidence, Action, AgentCommentary, TopCard } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
 import type { LLMLogger } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
@@ -9,6 +9,8 @@ import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
 import { computeVaultConversionCandidates } from '../rules/index.js'
 import { rankPortfolioActions } from '../rules/ranking.js'
 import { buildBasicPortfolioCommentary } from '../commentary/basic.js'
+import { getCardPrice } from '../services/pricing-service.js'
+import type { PriceConfidenceLevel } from '../services/pricing-service.js'
 
 // ─── Return types ───────────────────────────────────────────────────────────
 
@@ -145,6 +147,68 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
   // 2b. Rank portfolio-level actions from vault conversion candidates
   const rankedActions = rankPortfolioActions(vaultConversionCandidates)
 
+  // 2c. Build top_cards with pricing data
+  type CardCandidate = {
+    id: string
+    title: string
+    grade: string | null
+    state: 'VAULTED' | 'EXTERNAL'
+    cardId?: string
+    estimatedValue: number
+  }
+
+  const cardCandidates: CardCandidate[] = []
+  for (const uc of userCards) {
+    cardCandidates.push({
+      id: uc.id,
+      title: uc.card.name,
+      grade: uc.card.grade,
+      state: uc.state === 'VAULTED' ? 'VAULTED' : 'EXTERNAL',
+      cardId: uc.cardId,
+      estimatedValue: Number(uc.estimatedValue ?? 0),
+    })
+  }
+  for (const ec of externalCards) {
+    cardCandidates.push({
+      id: ec.id,
+      title: ec.name,
+      grade: ec.grade,
+      state: 'EXTERNAL',
+      estimatedValue: Number(ec.estimatedValue ?? 0),
+    })
+  }
+
+  // Fetch prices in parallel for all cards
+  const priceResults = await Promise.all(
+    cardCandidates.map((c) => getCardPrice(c.title, c.cardId))
+  )
+
+  const topCards: TopCard[] = cardCandidates
+    .map((c, i) => {
+      const price = priceResults[i]
+      return {
+        id: c.id,
+        title: c.title,
+        grade: c.grade,
+        state: c.state,
+        market_price: price.market_price ?? (c.estimatedValue || null),
+        buyback_price: price.buyback_price,
+        confidence: price.confidence as PriceConfidenceLevel,
+      }
+    })
+    .sort((a, b) => (b.market_price ?? 0) - (a.market_price ?? 0))
+    .slice(0, 10)
+
+  // Compute portfolio-level values from pricing
+  let portfolioValueMarket = 0
+  let portfolioValueLiquidity = 0
+  for (let i = 0; i < cardCandidates.length; i++) {
+    const price = priceResults[i]
+    const fallbackValue = cardCandidates[i].estimatedValue
+    portfolioValueMarket += price.market_price ?? fallbackValue ?? 0
+    portfolioValueLiquidity += price.buyback_price ?? 0
+  }
+
   // 3. Render prompt
   let vaultedCount = 0
   for (const uc of userCards) {
@@ -178,6 +242,11 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
       priceConfidence: overallPriceConfidence,
       liquidityScore: 0,
       concentrationScore: 0,
+      topCards,
+      portfolioValueMarket,
+      portfolioValueLiquidity,
+      vaultedCount,
+      externalCount: externalCards.length,
     },
     rankedActions
   )
@@ -208,6 +277,9 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
         vaultConversionCandidates,
         recommended_actions: rankedActions,
         agent_commentary: llmCommentary,
+        top_cards: topCards,
+        portfolio_value_market: portfolioValueMarket,
+        portfolio_value_liquidity: portfolioValueLiquidity,
       },
     }
   }
@@ -230,6 +302,9 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
       vaultConversionCandidates,
       recommended_actions: rankedActions,
       agent_commentary: basicCommentary,
+      top_cards: topCards,
+      portfolio_value_market: portfolioValueMarket,
+      portfolio_value_liquidity: portfolioValueLiquidity,
     },
   }
 }
