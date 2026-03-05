@@ -4,6 +4,7 @@ import { CollectorArchetypeSchema } from '@tcg/schemas'
 import type { ArchetypeResponse } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
+import { wrapUserInput } from '../llm/sanitize.js'
 import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
 
 // ─── Return types ───────────────────────────────────────────────────────────
@@ -135,9 +136,9 @@ export async function detectArchetype(userId: string): Promise<ArchetypeResult> 
 
   const { system, user } = renderPrompt('archetype_identity', {
     user_id: userId,
-    portfolio_summary_json: JSON.stringify(portfolioData),
-    top_ips: topIpsString,
-    action_history: JSON.stringify(actionHistory),
+    portfolio_summary_json: wrapUserInput('portfolio_data', JSON.stringify(portfolioData)),
+    top_ips: wrapUserInput('top_ips', topIpsString),
+    action_history: wrapUserInput('action_history', JSON.stringify(actionHistory)),
   })
 
   // 7. Call LLM

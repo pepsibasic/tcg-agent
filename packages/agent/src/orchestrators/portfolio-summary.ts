@@ -1,8 +1,9 @@
 import { prisma } from '@tcg/db'
-import { PortfolioSummarySchema } from '@tcg/schemas'
+import { PortfolioSummaryLLMSchema } from '@tcg/schemas'
 import type { PortfolioSummaryResponse, PriceConfidence } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
+import { wrapUserInput } from '../llm/sanitize.js'
 import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
 
 // ─── Return types ───────────────────────────────────────────────────────────
@@ -133,7 +134,7 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
 
   const { system, user } = renderPrompt('portfolio_summary', {
     user_id: userId,
-    cards_json: JSON.stringify(dbBreakdown),
+    cards_json: wrapUserInput('portfolio_data', JSON.stringify(dbBreakdown)),
     total_count: totalCards.toString(),
     vaulted_count: vaultedCount.toString(),
     external_count: externalCards.length.toString(),
@@ -141,7 +142,7 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
 
   // 4. Call LLM
   const llmResult = await generateWithRetry({
-    schema: PortfolioSummarySchema,
+    schema: PortfolioSummaryLLMSchema,  // Only 5 LLM-generated fields
     prompt: user,
     system,
     config: DEFAULT_LLM_CONFIG,

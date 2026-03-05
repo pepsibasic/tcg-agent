@@ -22,3 +22,14 @@ export const PortfolioSummarySchema = z.object({
 })
 
 export type PortfolioSummary = z.infer<typeof PortfolioSummarySchema>
+
+/** Schema for LLM-generated fields only. Orchestrator merges DB-computed fields after. */
+export const PortfolioSummaryLLMSchema = z.object({
+  concentrationScore: z.number(),
+  liquidityScore: z.number(),
+  collectorArchetype: z.union([z.string(), z.null()]),
+  missingSetGoals: z.array(z.string()),
+  recommendedActions: z.array(z.string()),
+})
+
+export type PortfolioSummaryLLM = z.infer<typeof PortfolioSummaryLLMSchema>

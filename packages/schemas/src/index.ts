@@ -8,6 +8,8 @@ export type { CardAnalysis } from './llm/card-analysis.js'
 
 export { PortfolioSummarySchema } from './llm/portfolio-summary.js'
 export type { PortfolioSummary } from './llm/portfolio-summary.js'
+export { PortfolioSummaryLLMSchema } from './llm/portfolio-summary.js'
+export type { PortfolioSummaryLLM } from './llm/portfolio-summary.js'
 
 export { CollectorArchetypeSchema } from './llm/archetype.js'
 export type { CollectorArchetype } from './llm/archetype.js'
