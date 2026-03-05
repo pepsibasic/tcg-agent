@@ -157,6 +157,13 @@ describe('PortfolioSummarySchema', () => {
 })
 
 describe('PortfolioSummaryResponseSchema (API)', () => {
+  const validAction = {
+    type: 'LIST' as const,
+    params: {},
+    ui_copy: 'List a card on the marketplace',
+    risk_notes: null,
+  }
+
   const validResponse = {
     userId: 'user-456',
     totalValueEst: 5000,
@@ -170,6 +177,19 @@ describe('PortfolioSummaryResponseSchema (API)', () => {
     recommendedActions: ['Consider diversifying'],
     priceDataAsOf: null,
     priceConfidence: 'NO_DATA' as const,
+    recommended_actions: [validAction],
+    agent_commentary: {
+      mode: 'BASIC' as const,
+      headline: 'Your portfolio at a glance',
+      bullets: ['60% Pokemon, 40% Yu-Gi-Oh'],
+      next_best_moves: [
+        {
+          title: 'List a card',
+          rationale: 'Improve liquidity',
+          action: validAction,
+        },
+      ],
+    },
   }
 
   it('accepts a valid PortfolioSummaryResponse (same shape as LLM schema)', () => {

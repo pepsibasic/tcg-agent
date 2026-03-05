@@ -15,6 +15,7 @@ import { Goals } from '@/components/portfolio/goals'
 import { TopAssets } from '@/components/portfolio/top-assets'
 import { NextActions } from '@/components/portfolio/next-actions'
 import { Wrapped } from '@/components/portfolio/wrapped'
+import { AgentNotesCard } from '@/components/portfolio/agent-notes'
 
 const DEFAULT_USER_ID =
   process.env.NEXT_PUBLIC_DEFAULT_USER_ID ||
@@ -76,6 +77,9 @@ export default function PortfolioPage() {
     <div>
       <h1 className="mb-6 text-2xl font-bold text-gray-900">Your Portfolio</h1>
       <div className="space-y-6">
+        {portfolio.agent_commentary && (
+          <AgentNotesCard commentary={portfolio.agent_commentary} />
+        )}
         <HeroStats portfolio={portfolio} />
         {archetype && (
           <ArchetypeCard
@@ -85,7 +89,7 @@ export default function PortfolioPage() {
         )}
         <Goals goals={goals} />
         <TopAssets breakdown={portfolio.breakdown} />
-        <NextActions actions={portfolio.recommendedActions} />
+        <NextActions actions={portfolio.recommended_actions ?? portfolio.recommendedActions} />
         <Wrapped data={wrapped} />
       </div>
     </div>

@@ -245,6 +245,8 @@ describe('Journey 2: External card upload to portfolio appearance', () => {
         recommendedActions: ['Consider vaulting high-value cards'],
         priceDataAsOf: null,
         priceConfidence: 'NO_DATA',
+        recommended_actions: [],
+        agent_commentary: { mode: 'BASIC', headline: 'Your portfolio', bullets: [], next_best_moves: [] },
       },
     }
     mockSummarizePortfolio.mockResolvedValue(portfolioResult)
@@ -347,6 +349,8 @@ describe('Journey 3: Portfolio summary request', () => {
         recommendedActions: ['Vault high-value Pokemon cards', 'Diversify your collection'],
         priceDataAsOf: '2026-03-05T00:00:00.000Z',
         priceConfidence: 'RECENT_24H',
+        recommended_actions: [],
+        agent_commentary: { mode: 'BASIC', headline: 'Pokemon-heavy portfolio', bullets: ['72% Pokemon'], next_best_moves: [] },
       },
     }
     mockSummarizePortfolio.mockResolvedValue(portfolioResult)
@@ -400,6 +404,8 @@ describe('Journey 3: Portfolio summary request', () => {
         recommendedActions: [],
         priceDataAsOf: null,
         priceConfidence: 'NO_DATA',
+        recommended_actions: [],
+        agent_commentary: { mode: 'BASIC', headline: 'Empty portfolio', bullets: [], next_best_moves: [] },
       },
     }
     mockSummarizePortfolio.mockResolvedValue(portfolioResult)

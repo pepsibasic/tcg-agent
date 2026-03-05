@@ -51,6 +51,7 @@ describe('agent routes', () => {
       actions: [],
       priceConfidence: 'FRESH',
       priceFetchedAt: null,
+      narrative: { mode: 'BASIC', headline: 'Test', bullets: [] },
     }
     mockAnalyzeCard.mockResolvedValue({ success: true, data: analysisData })
 
@@ -114,6 +115,7 @@ describe('agent routes', () => {
       priceConfidence: 'FRESH',
       priceFetchedAt: null,
       degraded: true,
+      narrative: { mode: 'BASIC', headline: 'Degraded', bullets: [] },
     }
     mockAnalyzeCard.mockResolvedValue({ success: true, data: degradedData, degraded: true })
 
@@ -178,6 +180,8 @@ describe('agent routes', () => {
       top_cards: [],
       vault_candidates: [],
       actions_summary: '',
+      recommended_actions: [],
+      agent_commentary: { mode: 'BASIC', headline: 'Summary', bullets: [], next_best_moves: [] },
     }
     mockSummarizePortfolio.mockResolvedValue({ success: true, data: summaryData })
 

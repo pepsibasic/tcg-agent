@@ -29,7 +29,7 @@ export type GenerateResult<T> =
   | { success: false; failure: AnalysisFailure }
 
 export const DEFAULT_LLM_CONFIG: LLMProviderConfig = {
-  provider: 'openai',
-  model: 'gpt-4o-mini',
+  provider: 'anthropic',
+  model: 'claude-sonnet-4-6',
   maxRetries: 2,
 }

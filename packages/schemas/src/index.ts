@@ -1,6 +1,6 @@
 // Shared enums
-export { CardStateSchema, PriceConfidenceSchema } from './shared/enums.js'
-export type { CardState, PriceConfidence } from './shared/enums.js'
+export { CardStateSchema, PriceConfidenceSchema, CommentaryModeSchema } from './shared/enums.js'
+export type { CardState, PriceConfidence, CommentaryMode } from './shared/enums.js'
 
 // LLM-facing schemas
 export { CardAnalysisSchema } from './llm/card-analysis.js'
@@ -16,6 +16,10 @@ export type { CollectorArchetype } from './llm/archetype.js'
 
 export { ActionSchema, ActionTypeSchema } from './llm/action.js'
 export type { Action, ActionType } from './llm/action.js'
+
+// Commentary schemas
+export { AgentCommentarySchema, NarrativeSchema, NextBestMoveSchema } from './api/commentary.js'
+export type { AgentCommentary, Narrative, NextBestMove } from './api/commentary.js'
 
 // API-facing schemas
 export { CardAnalysisResponseSchema } from './api/card-analysis.js'

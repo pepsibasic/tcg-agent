@@ -8,6 +8,7 @@ import type { CardAnalysisResponse, ActionType } from '@/lib/types'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { PageLoading } from '@/components/ui/loading'
+import { ModeBadge } from '@/components/portfolio/agent-notes'
 
 const confidenceColors: Record<string, string> = {
   HIGH: 'bg-green-100 text-green-800',
@@ -95,6 +96,32 @@ export default function CardDetailPage() {
       )}
 
       <div className="space-y-6">
+        {/* Narrative / What This Means */}
+        {analysis.narrative && (
+          <Card className="border-brand-200 bg-brand-50/30">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">What This Means</h3>
+              <ModeBadge mode={analysis.narrative.mode} />
+            </div>
+            <p className="mb-3 text-sm font-medium text-gray-900">{analysis.narrative.headline}</p>
+            <ul className="mb-4 space-y-1">
+              {analysis.narrative.bullets.map((bullet, i) => (
+                <li key={i} className="text-sm text-gray-600">&bull; {bullet}</li>
+              ))}
+            </ul>
+            {analysis.narrative.what_people_do && analysis.narrative.what_people_do.length > 0 && (
+              <div>
+                <p className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">What collectors do</p>
+                <ul className="space-y-1">
+                  {analysis.narrative.what_people_do.map((item, i) => (
+                    <li key={i} className="text-sm text-gray-600">&bull; {item}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </Card>
+        )}
+
         {/* Identity & Signals */}
         <Card>
           <div className="mb-3 flex flex-wrap gap-2">

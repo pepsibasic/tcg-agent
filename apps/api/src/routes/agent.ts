@@ -42,12 +42,19 @@ export async function agentRoutes(fastify: FastifyInstance) {
       data: {
         userId,
         cardId: body.cardId,
-        agentRecommended: JSON.parse(JSON.stringify({ actions: recommendedActions })),
+        agentRecommended: JSON.parse(JSON.stringify({
+          event_type: 'card_analysis',
+          mode: result.data.narrative.mode,
+          actions: recommendedActions,
+        })),
         userAction: 'RECOMMENDATION',
       },
     })
 
-    request.log.info({ endpoint: '/agent/card/analyze', user_id: userId, card_count: 1 }, 'agent_analysis_complete')
+    request.log.info(
+      { operation: 'card_analysis', mode: result.data.narrative.mode, actions_count: recommendedActions.length },
+      'recommendation_shown'
+    )
 
     const responseBody: Record<string, unknown> = { ...result.data }
     if (result.degraded) {
@@ -86,7 +93,27 @@ export async function agentRoutes(fastify: FastifyInstance) {
 
     const result = await summarizePortfolio(userId, request.log as LLMLogger)
 
-    request.log.info({ endpoint: '/agent/portfolio/summary', user_id: userId }, 'agent_analysis_complete')
+    request.log.info(
+      {
+        operation: 'portfolio_summary',
+        mode: result.data.agent_commentary.mode,
+        actions_count: result.data.recommended_actions.length,
+      },
+      'recommendation_shown'
+    )
+
+    // Audit: log portfolio-level recommendations
+    await prisma.actionsLog.create({
+      data: {
+        userId,
+        agentRecommended: JSON.parse(JSON.stringify({
+          event_type: 'portfolio_summary',
+          mode: result.data.agent_commentary.mode,
+          actions: result.data.recommended_actions,
+        })),
+        userAction: 'RECOMMENDATION',
+      },
+    })
 
     const responseBody: Record<string, unknown> = { ...result.data }
     if (result.degraded) {

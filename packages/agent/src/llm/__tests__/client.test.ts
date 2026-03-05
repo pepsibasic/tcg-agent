@@ -16,12 +16,12 @@ vi.mock('@ai-sdk/anthropic', () => ({
 }))
 
 describe('DEFAULT_LLM_CONFIG', () => {
-  it('has provider openai', () => {
-    expect(DEFAULT_LLM_CONFIG.provider).toBe('openai')
+  it('has provider anthropic by default', () => {
+    expect(DEFAULT_LLM_CONFIG.provider).toBe('anthropic')
   })
 
-  it('has model gpt-4o-mini', () => {
-    expect(DEFAULT_LLM_CONFIG.model).toBe('gpt-4o-mini')
+  it('has model claude-sonnet-4-6 by default', () => {
+    expect(DEFAULT_LLM_CONFIG.model).toBe('claude-sonnet-4-6')
   })
 
   it('has maxRetries 2', () => {

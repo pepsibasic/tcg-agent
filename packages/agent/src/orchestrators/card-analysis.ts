@@ -1,7 +1,9 @@
 import { prisma } from '@tcg/db'
 import { CardAnalysisSchema } from '@tcg/schemas'
-import type { CardAnalysisResponse } from '@tcg/schemas'
+import type { CardAnalysisResponse, Narrative } from '@tcg/schemas'
 import { computeEligibleActions } from '../rules/index.js'
+import { rankCardActions } from '../rules/ranking.js'
+import { buildBasicCardNarrative } from '../commentary/basic.js'
 import { generateWithRetry } from '../llm/generate.js'
 import type { LLMLogger } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
@@ -43,7 +45,7 @@ export async function analyzeCard(
   }
 
   // 3. Compute actions deterministically from rules engine — NEVER from LLM
-  const actions = computeEligibleActions(rulesInput)
+  const actions = rankCardActions(computeEligibleActions(rulesInput))
 
   // 4. Render prompt
   const rendered = renderPrompt('card_analysis', {
@@ -69,8 +71,32 @@ export async function analyzeCard(
 
   const priceFetchedAt = userCard.priceFetchedAt?.toISOString() ?? null
 
-  // 6. Success path
+  // 6. Build BASIC narrative from heuristics (always available as fallback)
+  const basicNarrative = buildBasicCardNarrative({
+    card_id: userCardId,
+    identity_tags: [],
+    rarity_signal: 'UNKNOWN',
+    liquidity_signal: 'UNKNOWN',
+    price_band: userCard.estimatedValue
+      ? { low: Number(userCard.estimatedValue) * 0.9, high: Number(userCard.estimatedValue) * 1.1, currency: 'USD' }
+      : null,
+    actions,
+  })
+
+  // 7. Success path
   if (llmResult.success) {
+    // If LLM succeeded, upgrade narrative with LLM-generated text
+    const llmNarrative: Narrative = {
+      mode: 'LLM',
+      headline: llmResult.data.reasoning_bullets.length > 0
+        ? llmResult.data.reasoning_bullets[0]
+        : basicNarrative.headline,
+      bullets: llmResult.data.reasoning_bullets.length > 0
+        ? llmResult.data.reasoning_bullets
+        : basicNarrative.bullets,
+      what_people_do: basicNarrative.what_people_do,
+    }
+
     return {
       success: true,
       data: {
@@ -78,11 +104,12 @@ export async function analyzeCard(
         actions,
         priceConfidence: userCard.priceConfidence,
         priceFetchedAt,
+        narrative: llmNarrative,
       },
     }
   }
 
-  // 7. Degraded path — LLM failed, return rules engine actions with null narrative fields
+  // 8. Degraded path — LLM failed, return rules engine actions with BASIC narrative
   return {
     success: true,
     degraded: true,
@@ -98,6 +125,7 @@ export async function analyzeCard(
       priceConfidence: userCard.priceConfidence,
       priceFetchedAt,
       degraded: true,
+      narrative: basicNarrative,
     },
   }
 }

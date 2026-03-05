@@ -24,6 +24,28 @@ export interface PriceBand {
   currency: string
 }
 
+export type CommentaryMode = 'LLM' | 'BASIC'
+
+export interface NextBestMove {
+  title: string
+  rationale: string
+  action: Action
+}
+
+export interface AgentCommentary {
+  mode: CommentaryMode
+  headline: string
+  bullets: string[]
+  next_best_moves: NextBestMove[]
+}
+
+export interface Narrative {
+  mode: CommentaryMode
+  headline: string
+  bullets: string[]
+  what_people_do?: string[]
+}
+
 export interface CardAnalysisResponse {
   card_id: string
   identity_tags: string[]
@@ -36,6 +58,7 @@ export interface CardAnalysisResponse {
   priceConfidence: PriceConfidence
   priceFetchedAt: string | null
   degraded?: boolean
+  narrative?: Narrative
 }
 
 export interface PortfolioBreakdown {
@@ -54,6 +77,8 @@ export interface PortfolioSummaryResponse {
   collectorArchetype: string | null
   missingSetGoals: string[]
   recommendedActions: string[]
+  recommended_actions?: Action[]
+  agent_commentary?: AgentCommentary
   priceDataAsOf: string | null
   priceConfidence: PriceConfidence
 }

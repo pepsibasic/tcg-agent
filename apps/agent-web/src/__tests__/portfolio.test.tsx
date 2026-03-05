@@ -14,6 +14,19 @@ const { mockPortfolio, mockArchetype } = vi.hoisted(() => ({
     collectorArchetype: 'IP Loyalist',
     missingSetGoals: ["Champion's Path"],
     recommendedActions: ['List high-value duplicates', 'Open new packs'],
+    recommended_actions: [
+      { type: 'BUYBACK', params: null, ui_copy: 'Sell back your top card', risk_notes: null },
+    ],
+    agent_commentary: {
+      mode: 'BASIC' as const,
+      headline: 'Your portfolio is worth $1,250.',
+      bullets: ['Total estimated value: $1,250 across 8 cards.', '2 IP categories tracked.'],
+      next_best_moves: [{
+        title: 'Buyback',
+        rationale: 'Sell back your top card',
+        action: { type: 'BUYBACK', params: null, ui_copy: 'Sell back your top card', risk_notes: null },
+      }],
+    },
     priceDataAsOf: '2024-01-15T00:00:00Z',
     priceConfidence: 'RECENT_24H' as const,
   },
@@ -97,8 +110,17 @@ describe('PortfolioPage', () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText('List high-value duplicates')
-      ).toBeInTheDocument()
+        screen.getAllByText('Sell back your top card').length
+      ).toBeGreaterThanOrEqual(1)
     })
+  })
+
+  it('renders agent notes', async () => {
+    render(<PortfolioPage />)
+    await waitFor(() => {
+      expect(screen.getByText('Agent Notes')).toBeInTheDocument()
+    })
+    expect(screen.getByText('Your portfolio is worth $1,250.')).toBeInTheDocument()
+    expect(screen.getByText('Basic Mode')).toBeInTheDocument()
   })
 })

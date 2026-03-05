@@ -155,6 +155,11 @@ describe('CardAnalysisResponseSchema (API)', () => {
     actions: [validAction],
     priceConfidence: 'LIVE' as const,
     priceFetchedAt: '2026-03-01T00:00:00Z',
+    narrative: {
+      mode: 'BASIC' as const,
+      headline: 'Ultra rare Charizard with high demand',
+      bullets: ['Base set in mint condition'],
+    },
   }
 
   it('accepts a valid API response with required actions field', () => {

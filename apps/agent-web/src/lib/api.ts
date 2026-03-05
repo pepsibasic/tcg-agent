@@ -29,12 +29,17 @@ function getUserId(): string {
 
 async function apiFetch<T>(path: string, opts?: RequestInit): Promise<T> {
   const requestId = crypto.randomUUID()
+  const headers: Record<string, string> = {
+    'X-Request-Id': requestId,
+    'X-User-Id': getUserId(),
+  }
+  if (opts?.body) {
+    headers['Content-Type'] = 'application/json'
+  }
   const res = await fetch(`${API_BASE}${path}`, {
     ...opts,
     headers: {
-      'Content-Type': 'application/json',
-      'X-Request-Id': requestId,
-      'X-User-Id': getUserId(),
+      ...headers,
       ...opts?.headers,
     },
   })

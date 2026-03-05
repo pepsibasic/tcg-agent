@@ -7,6 +7,8 @@ import { buildOnMarketActions } from './actions/on-market.js'
 import { buildInTransitActions } from './actions/in-transit.js'
 import { computeVaultConversionCandidatesImpl } from './vault/conversion.js'
 
+export { rankCardActions, rankPortfolioActions } from './ranking.js'
+
 export function computeEligibleActions(input: RulesEngineInput): Action[] {
   switch (input.card.state) {
     case 'VAULTED':

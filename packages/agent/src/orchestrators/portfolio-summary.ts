@@ -1,12 +1,14 @@
 import { prisma } from '@tcg/db'
 import { PortfolioSummaryLLMSchema } from '@tcg/schemas'
-import type { PortfolioSummaryResponse, PriceConfidence, Action } from '@tcg/schemas'
+import type { PortfolioSummaryResponse, PriceConfidence, Action, AgentCommentary } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
 import type { LLMLogger } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
 import { wrapUserInput } from '../llm/sanitize.js'
 import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
 import { computeVaultConversionCandidates } from '../rules/index.js'
+import { rankPortfolioActions } from '../rules/ranking.js'
+import { buildBasicPortfolioCommentary } from '../commentary/basic.js'
 
 // ─── Return types ───────────────────────────────────────────────────────────
 
@@ -51,8 +53,8 @@ function worstPriceConfidence(confidences: PriceConfidence[]): PriceConfidence {
  * 2. Compute DB-derived fields deterministically:
  *    - totalValueEst, breakdown (grouped by ipCategory), priceDataAsOf, priceConfidence
  * 3. Render the portfolio_summary prompt and call LLM via generateWithRetry
- * 4. Success path: merge LLM output with DB-computed fields
- * 5. Degraded path: return DB-computed fields with narrative defaults
+ * 4. Success path: merge LLM output with DB-computed fields + agent commentary
+ * 5. Degraded path: return DB-computed fields with narrative defaults + BASIC commentary
  */
 export async function summarizePortfolio(userId: string, logger?: LLMLogger): Promise<PortfolioSummaryResult> {
   // 1. Fetch all cards
@@ -140,6 +142,9 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
   }
   const overallPriceConfidence = worstPriceConfidence(allConfidences)
 
+  // 2b. Rank portfolio-level actions from vault conversion candidates
+  const rankedActions = rankPortfolioActions(vaultConversionCandidates)
+
   // 3. Render prompt
   let vaultedCount = 0
   for (const uc of userCards) {
@@ -165,8 +170,32 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
     logger,
   })
 
+  // 4b. Build BASIC commentary (always available as fallback)
+  const basicCommentary = buildBasicPortfolioCommentary(
+    {
+      totalValueEst,
+      breakdown: dbBreakdown,
+      priceConfidence: overallPriceConfidence,
+      liquidityScore: 0,
+      concentrationScore: 0,
+    },
+    rankedActions
+  )
+
   // 5. Success path: merge LLM output with DB-computed fields
   if (llmResult.success) {
+    // If LLM succeeded, upgrade commentary headline/bullets with LLM text
+    const llmCommentary: AgentCommentary = {
+      mode: 'LLM',
+      headline: llmResult.data.recommendedActions.length > 0
+        ? llmResult.data.recommendedActions[0]
+        : basicCommentary.headline,
+      bullets: llmResult.data.recommendedActions.length > 0
+        ? llmResult.data.recommendedActions
+        : basicCommentary.bullets,
+      next_best_moves: basicCommentary.next_best_moves,
+    }
+
     return {
       success: true,
       data: {
@@ -177,11 +206,13 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
         priceDataAsOf,
         priceConfidence: overallPriceConfidence,
         vaultConversionCandidates,
+        recommended_actions: rankedActions,
+        agent_commentary: llmCommentary,
       },
     }
   }
 
-  // 6. Degraded path: return deterministic fields with narrative defaults
+  // 6. Degraded path: return deterministic fields with narrative defaults + BASIC commentary
   return {
     success: true,
     degraded: true,
@@ -197,6 +228,8 @@ export async function summarizePortfolio(userId: string, logger?: LLMLogger): Pr
       priceDataAsOf,
       priceConfidence: overallPriceConfidence,
       vaultConversionCandidates,
+      recommended_actions: rankedActions,
+      agent_commentary: basicCommentary,
     },
   }
 }
