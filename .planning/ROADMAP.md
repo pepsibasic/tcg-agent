@@ -103,7 +103,12 @@ Plans:
   4. Vitest unit tests for all Zod schemas pass with both valid and invalid inputs across all schema types
   5. Vitest unit tests for the rules engine cover all card states × action eligibility combinations with no failures
   6. Integration tests via HTTP verify all four MVP user journeys: pack pull → card analysis, external upload → portfolio appearance, portfolio summary request, and shareable archetype export
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Request ID propagation, structured logging, LLM diagnostics, and actions audit
+- [ ] 05-02-PLAN.md — Zod schema validation tests and rules engine test gap-fill
+- [ ] 05-03-PLAN.md — MVP user journey integration tests via HTTP
 
 ## Progress
 
@@ -116,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
-| 5. Observability, Hardening, and Testing | 0/TBD | Not started | - |
+| 5. Observability, Hardening, and Testing | 0/3 | Planning complete | - |
 
 ---
 *Roadmap created: 2026-03-04*
