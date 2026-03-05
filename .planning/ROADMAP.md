@@ -140,7 +140,11 @@ Plans:
   2. request.log from Fastify is threaded through all 3 orchestrators into generateWithRetry — LLM diagnostic events (llm_validation_failure, llm_generation_exhausted) fire with real request context
   3. POST /agent/card/analyze-batch writes RECOMMENDATION entries to actionsLog for each card analyzed
   4. Integration test mock fixtures use valid PriceConfidence enum values (LIVE/RECENT_24H/STALE_7D/NO_DATA) and real ActionSchema shapes ({type, params, ui_copy, risk_notes})
-**Plans:** 0 plans
+**Plans:** 2 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Wire vault conversion into portfolio summary, thread logger through orchestrators, add batch audit trail
+- [ ] 07-02-PLAN.md — Fix integration test mock fixtures for schema validity
 
 ## Progress
 
@@ -155,7 +159,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
 | 6. Prompt-Schema Alignment | 2/2 | Complete   | 2026-03-05 |
-| 7. Cross-Phase Wiring and Test Fidelity | 0 | Not started | - |
+| 7. Cross-Phase Wiring and Test Fidelity | 0/2 | Planning complete | - |
 
 ---
 *Roadmap created: 2026-03-04*
