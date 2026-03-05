@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity (completed 2026-03-04)
 - [x] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests (completed 2026-03-05)
 - [x] **Phase 6: Prompt-Schema Alignment** - Fix all 3 LLM prompt templates to match Zod schemas, wire input sanitization, add contract tests (gap closure) (completed 2026-03-05)
-- [ ] **Phase 7: Cross-Phase Wiring and Test Fidelity** - Wire vault conversion to API, thread LLM logger, add batch audit log, fix integration test mocks (gap closure)
+- [x] **Phase 7: Cross-Phase Wiring and Test Fidelity** - Wire vault conversion to API, thread LLM logger, add batch audit log, fix integration test mocks (gap closure) (completed 2026-03-05)
 
 ## Phase Details
 
@@ -140,7 +140,7 @@ Plans:
   2. request.log from Fastify is threaded through all 3 orchestrators into generateWithRetry — LLM diagnostic events (llm_validation_failure, llm_generation_exhausted) fire with real request context
   3. POST /agent/card/analyze-batch writes RECOMMENDATION entries to actionsLog for each card analyzed
   4. Integration test mock fixtures use valid PriceConfidence enum values (LIVE/RECENT_24H/STALE_7D/NO_DATA) and real ActionSchema shapes ({type, params, ui_copy, risk_notes})
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 07-01-PLAN.md — Wire vault conversion into portfolio summary, thread logger through orchestrators, add batch audit trail
@@ -159,7 +159,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
 | 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
 | 6. Prompt-Schema Alignment | 2/2 | Complete   | 2026-03-05 |
-| 7. Cross-Phase Wiring and Test Fidelity | 1/2 | In Progress|  |
+| 7. Cross-Phase Wiring and Test Fidelity | 2/2 | Complete   | 2026-03-05 |
 
 ---
 *Roadmap created: 2026-03-04*

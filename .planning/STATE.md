@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 07-01-PLAN.md
-last_updated: "2026-03-05T06:55:57.655Z"
+stopped_at: Completed 07-02-PLAN.md
+last_updated: "2026-03-05T06:58:28.883Z"
 last_activity: 2026-03-04 — Roadmap created, all 43 v1 requirements mapped to 5 phases
 progress:
   total_phases: 7
-  completed_phases: 6
+  completed_phases: 7
   total_plans: 22
-  completed_plans: 21
+  completed_plans: 22
   percent: 0
 ---
 
@@ -71,6 +71,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 06-prompt-schema-alignment P01 | 4 | 2 tasks | 5 files |
 | Phase 06-prompt-schema-alignment P02 | 1 | 1 tasks | 1 files |
 | Phase 07-cross-phase-wiring-and-test-fidelity P01 | 8 | 2 tasks | 8 files |
+| Phase 07-cross-phase-wiring-and-test-fidelity P02 | 3 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -135,6 +136,7 @@ Recent decisions affecting current work:
 - [Phase 07]: LLMLogger exported from llm/index.ts barrel for clean import from @tcg/agent in route handlers
 - [Phase 07]: request.log cast as LLMLogger in route handlers — Pino superset, no adapter needed
 - [Phase 07]: analyzeCardBatch writes actionsLog after all chunks resolve, not inside analyzeCard, preserving single-card call cleanliness
+- [Phase 07]: Integration test mocks use full ActionSchema shape {type,params,ui_copy,risk_notes} and valid PriceConfidence enum values — ensures structural regressions are caught
 
 ### Pending Todos
 
@@ -149,6 +151,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-05T06:55:57.652Z
-Stopped at: Completed 07-01-PLAN.md
+Last session: 2026-03-05T06:58:28.880Z
+Stopped at: Completed 07-02-PLAN.md
 Resume file: None
