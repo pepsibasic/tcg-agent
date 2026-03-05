@@ -9,7 +9,9 @@
     "lint": "turbo run lint",
     "db:migrate": "pnpm --filter @tcg/db exec prisma migrate dev",
     "db:seed": "pnpm --filter @tcg/db run seed",
-    "db:generate": "pnpm --filter @tcg/db run generate"
+    "db:generate": "pnpm --filter @tcg/db run generate",
+    "dev:web": "pnpm --filter @tcg/agent-web dev",
+    "start": "node apps/api/dist/server.js"
   },
   "devDependencies": {
     "turbo": "^2.4.0"
