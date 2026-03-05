@@ -33,9 +33,9 @@ Produce a JSON object with EXACTLY these fields (return null — not omit — fo
 - identity_tags: string[] — descriptive tags (e.g., ["pokemon", "holo", "first-edition"])
 - rarity_signal: string | null — market scarcity observations using signals language
 - liquidity_signal: string | null — how actively this card trades
-- price_band: { low: number | null, mid: number | null, high: number | null } | null — estimated price range
+- price_band: { low: number, high: number, currency: string } | null — estimated price range with currency code (e.g., "USD")
 - reasoning_bullets: string[] — 2-4 analytical observations about market position, demand, and trends
-- confidence: number — your confidence in this analysis from 0.0 to 1.0
+- confidence: 'HIGH' | 'MEDIUM' | 'LOW' — your confidence in this analysis
 
 Style: Analytical with personality — like a knowledgeable friend, not a robot. Example tone: "Charizard VMAX PSA 10 sits in the top tier of modern Pokemon chase cards. Market activity is strong — recent comps suggest strong demand."`,
     requiredSlots: [
@@ -60,11 +60,11 @@ External Cards: {{external_count}}
 Portfolio Data (JSON): {{cards_json}}
 
 Produce a JSON object with EXACTLY these fields (return null — not omit — for unknown fields):
-- breakdown: { vaulted: number, external: number, other: number } — card counts by location
-- concentration_score: number | null — 0.0 to 1.0, higher = more concentrated in fewer IPs
-- liquidity_score: number | null — 0.0 to 1.0, higher = more liquid portfolio
-- recommended_actions: string[] — 2-3 actionable recommendations (signals language, no financial advice)
-- top_insight: string | null — single most important observation about this portfolio
+- concentrationScore: number — 0.0 to 1.0, higher means portfolio is more concentrated in fewer IPs/sets
+- liquidityScore: number — 0.0 to 1.0, higher means portfolio is more liquid (more vaulted, actively traded cards)
+- collectorArchetype: string | null — one-line archetype label (e.g., "Pokemon Specialist", "Diverse Collector"), or null if unclear
+- missingSetGoals: string[] — 0-3 notable gaps in the collection the user might want to fill
+- recommendedActions: string[] — 2-3 actionable next steps using signals language, no financial advice
 
 Style: Key insights + recommendations. 2-3 sentence overview highlighting concentration risk, strongest IP, and top recommendation. Actionable, not exhaustive.`,
     requiredSlots: [
@@ -91,7 +91,7 @@ Produce a JSON object with EXACTLY these fields (return null — not omit — fo
 - why: string | null — 2-3 sentence explanation of why this collector fits this archetype (signals language, no financial advice)
 - comparable_collectors: string[] | null — types of collectors this person is similar to
 - share_card_text: string | null — fun, shareable 1-2 sentence description for social sharing
-- badges: string[] — earned achievement badges (e.g., ["vault_builder", "ip_specialist"])
+- share_card_badges: string[] — earned achievement badges (e.g., ["vault_builder", "ip_specialist"])
 
 Style: Fun and shareable — memorable names, personality-driven descriptions made for sharing. Think "The Vault Guardian" not "Conservative collector."`,
     requiredSlots: [
