@@ -60,3 +60,12 @@ export type {
   TopMover,
   PortfolioChangesResponse,
 } from './api/price-history.js'
+
+export {
+  SearchCardItemSchema,
+  SearchCardsResponseSchema,
+} from './api/search.js'
+export type {
+  SearchCardItem,
+  SearchCardsResponse,
+} from './api/search.js'

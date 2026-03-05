@@ -197,6 +197,19 @@ model AlertEvent {
   @@map("alert_events")
 }
 
+model CardCatalog {
+  cardKey   String   @id
+  title     String
+  game      String?
+  setName   String?
+  variant   String?
+  language  String?
+  updatedAt DateTime @updatedAt
+
+  @@index([title])
+  @@map("card_catalog")
+}
+
 model ActionsLog {
   id               String   @id @default(uuid(7)) @db.Uuid
   userId           String   @db.Uuid

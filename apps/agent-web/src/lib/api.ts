@@ -7,6 +7,10 @@ import type {
   MarketMoversResponse,
   WatchlistResponse,
   AlertEventsResponse,
+  SearchCardsResponse,
+  BulkUploadItem,
+  BulkUploadResponse,
+  AlertDTO,
   ApiErrorBody,
 } from './types'
 
@@ -154,5 +158,24 @@ export const api = {
     return apiFetch<{ status: string }>(`/notifications/${encodeURIComponent(id)}/seen`, {
       method: 'POST',
     })
+  },
+
+  searchCards(q: string, limit = 20) {
+    return apiFetch<SearchCardsResponse>(
+      `/search/cards?q=${encodeURIComponent(q)}&limit=${limit}`
+    )
+  },
+
+  bulkAddExternalCards(items: BulkUploadItem[]) {
+    return apiFetch<BulkUploadResponse>('/external-cards/bulk', {
+      method: 'POST',
+      body: JSON.stringify({ items }),
+    })
+  },
+
+  getAlertsByCard(cardKey: string) {
+    return apiFetch<AlertDTO[]>('/alerts').then((alerts) =>
+      alerts.filter((a) => a.cardKey === cardKey)
+    )
   },
 }

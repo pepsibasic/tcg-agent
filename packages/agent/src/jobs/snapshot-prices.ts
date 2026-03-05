@@ -74,6 +74,13 @@ export async function runPriceSnapshot(requestId: string): Promise<SnapshotResul
             source: price.source,
           },
         })
+
+        // Upsert catalog entry
+        await prisma.cardCatalog.upsert({
+          where: { cardKey },
+          create: { cardKey, title: cardKey },
+          update: { title: cardKey },
+        })
       })
     )
 

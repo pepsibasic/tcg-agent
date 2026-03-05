@@ -30,6 +30,9 @@ export default function RootLayout({
               <Link href="/watchlist" className="text-gray-600 hover:text-gray-900">
                 Watchlist
               </Link>
+              <Link href="/search" className="text-gray-600 hover:text-gray-900">
+                Search
+              </Link>
               <Link href="/upload" className="text-gray-600 hover:text-gray-900">
                 Upload
               </Link>

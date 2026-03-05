@@ -200,6 +200,50 @@ export interface AlertEventsResponse {
   events: AlertEventDTO[]
 }
 
+export interface SearchCardItem {
+  card_key: string
+  title: string
+  latest_price_usd: number | null
+  change_7d: number | null
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE'
+  is_watched: boolean
+}
+
+export interface SearchCardsResponse {
+  items: SearchCardItem[]
+  query: string
+  total: number
+}
+
+export interface BulkUploadItem {
+  title?: string
+  grade?: string
+  certNumber?: string
+  estimatedValue?: number
+}
+
+export interface BulkUploadCard {
+  id: string
+  title: string
+  estimatedValue: number | null
+  grade: string | null
+  cardKey: string | null
+}
+
+export interface BulkUploadResponse {
+  created: number
+  cards: BulkUploadCard[]
+  portfolio_delta_usd: number
+}
+
+export interface AlertDTO {
+  id: string
+  type: string
+  cardKey: string | null
+  threshold: number | null
+  createdAt: string
+}
+
 export interface ApiErrorBody {
   error: {
     code: string

@@ -141,4 +141,80 @@ export async function externalCardRoutes(fastify: FastifyInstance) {
 
     return reply.code(200).send({ grade: card?.grade ?? null })
   })
+
+  // POST /external-cards/bulk — batch create
+  fastify.post('/external-cards/bulk', async (request, reply) => {
+    const userId = getUserId(request)
+    if (!userId) {
+      return reply.code(401).send({ error: { code: 'UNAUTHORIZED', message: 'X-User-Id header is required' } })
+    }
+
+    const body = request.body as { items?: Array<{ title?: string; grade?: string; certNumber?: string; estimatedValue?: number }> }
+    if (!body.items || !Array.isArray(body.items) || body.items.length === 0) {
+      return reply.code(422).send({
+        error: { code: 'VALIDATION_ERROR', message: 'items array is required and must not be empty' },
+      })
+    }
+
+    if (body.items.length > 100) {
+      return reply.code(422).send({
+        error: { code: 'VALIDATION_ERROR', message: 'Maximum 100 items per bulk request' },
+      })
+    }
+
+    // Deduplicate by title+certNumber to prevent dupes within same request
+    const seen = new Set<string>()
+    const uniqueItems = body.items.filter((item) => {
+      const key = `${item.title || ''}|${item.certNumber || ''}`
+      if (seen.has(key)) return false
+      seen.add(key)
+      return true
+    })
+
+    const created: Array<{ id: string; title: string; estimatedValue: number | null; grade: string | null; cardKey: string | null }> = []
+    let portfolioDelta = 0
+
+    for (const item of uniqueItems) {
+      const title = item.title?.trim() || (item.certNumber ? `PSA Cert #${item.certNumber}` : 'Unknown Card')
+      const estimatedValue = item.estimatedValue ?? 0
+
+      const card = await prisma.externalCard.create({
+        data: {
+          userId,
+          name: title,
+          estimatedValue,
+          grade: item.grade?.trim() || null,
+          certNumber: item.certNumber?.trim() || null,
+          priceConfidence: 'NO_DATA',
+        },
+      })
+
+      created.push({
+        id: card.id,
+        title,
+        estimatedValue: estimatedValue || null,
+        grade: card.grade,
+        cardKey: title, // cardKey derived from title
+      })
+
+      portfolioDelta += estimatedValue
+    }
+
+    // Log to actions audit trail
+    await prisma.actionsLog.create({
+      data: {
+        userId,
+        agentRecommended: {},
+        userAction: `BULK_ADD:${created.length}`,
+      },
+    })
+
+    request.log.info({ user_id: userId, cards_created: created.length, portfolio_delta_usd: portfolioDelta }, 'bulk_external_cards_created')
+
+    return reply.code(201).send({
+      created: created.length,
+      cards: created,
+      portfolio_delta_usd: portfolioDelta,
+    })
+  })
 }
