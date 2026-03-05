@@ -6,6 +6,9 @@ vi.mock('@tcg/db', () => ({
     userCard: {
       findFirst: vi.fn(),
     },
+    actionsLog: {
+      create: vi.fn(),
+    },
   },
 }))
 

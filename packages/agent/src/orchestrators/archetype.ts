@@ -3,6 +3,7 @@ import type { UserCard, ActionsLog } from '@tcg/db'
 import { CollectorArchetypeSchema } from '@tcg/schemas'
 import type { ArchetypeResponse } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
+import type { LLMLogger } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
 import { wrapUserInput } from '../llm/sanitize.js'
 import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
@@ -57,7 +58,7 @@ export function computeArchetypeBadges(stats: {
  * 5. Override LLM share_card_badges with deterministic ones
  * 6. On LLM failure: return degraded response with badges still intact
  */
-export async function detectArchetype(userId: string): Promise<ArchetypeResult> {
+export async function detectArchetype(userId: string, logger?: LLMLogger): Promise<ArchetypeResult> {
   // 1. Fetch data
   const [userCards, externalCards, recentActions] = await Promise.all([
     prisma.userCard.findMany({
@@ -148,6 +149,7 @@ export async function detectArchetype(userId: string): Promise<ArchetypeResult> 
     system,
     config: DEFAULT_LLM_CONFIG,
     narrativeFields: ['why', 'share_card_text', 'traits', 'comparable_collectors'],
+    logger,
   })
 
   // 8. Success path — override LLM badges with deterministic badges

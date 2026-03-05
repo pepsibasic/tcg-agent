@@ -17,4 +17,4 @@ export { scrubCompliance } from './compliance.js'
 export type { ComplianceViolation, ComplianceScrubResult } from './compliance.js'
 
 export { generateWithRetry } from './generate.js'
-export type { GenerateWithRetryOptions, GenerateWithRetryResult } from './generate.js'
+export type { GenerateWithRetryOptions, GenerateWithRetryResult, LLMLogger } from './generate.js'

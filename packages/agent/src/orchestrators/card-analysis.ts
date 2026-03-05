@@ -3,6 +3,7 @@ import { CardAnalysisSchema } from '@tcg/schemas'
 import type { CardAnalysisResponse } from '@tcg/schemas'
 import { computeEligibleActions } from '../rules/index.js'
 import { generateWithRetry } from '../llm/generate.js'
+import type { LLMLogger } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
 import { sanitizeInput, wrapUserInput } from '../llm/sanitize.js'
 import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
@@ -14,7 +15,8 @@ type CardAnalysisResult = CardAnalysisSuccess | CardAnalysisNotFound
 export async function analyzeCard(
   userCardId: string,
   userId: string,
-  context: { source?: 'pack_pull' } = {}
+  context: { source?: 'pack_pull' } = {},
+  logger?: LLMLogger
 ): Promise<CardAnalysisResult> {
   // 1. Fetch the user card with relations
   const userCard = await prisma.userCard.findFirst({
@@ -61,6 +63,8 @@ export async function analyzeCard(
     system: rendered.system,
     config: DEFAULT_LLM_CONFIG,
     narrativeFields: ['rarity_signal', 'liquidity_signal', 'reasoning_bullets'],
+    logger,
+    cardId: userCardId,
   })
 
   const priceFetchedAt = userCard.priceFetchedAt?.toISOString() ?? null
@@ -101,15 +105,32 @@ export async function analyzeCard(
 export async function analyzeCardBatch(
   cardIds: string[],
   userId: string,
-  context: { source?: 'pack_pull' } = {}
+  context: { source?: 'pack_pull' } = {},
+  logger?: LLMLogger
 ): Promise<CardAnalysisResult[]> {
   const CONCURRENCY = 3
   const results: CardAnalysisResult[] = []
 
   for (let i = 0; i < cardIds.length; i += CONCURRENCY) {
     const chunk = cardIds.slice(i, i + CONCURRENCY)
-    const chunkResults = await Promise.all(chunk.map((id) => analyzeCard(id, userId, context)))
+    const chunkResults = await Promise.all(chunk.map((id) => analyzeCard(id, userId, context, logger)))
     results.push(...chunkResults)
+  }
+
+  // Write RECOMMENDATION actionsLog entries for each successfully analyzed card (CARD-03 / OBS-02)
+  for (const result of results) {
+    if (result.success) {
+      const cardId = result.data.card_id
+      const recommendedActions = result.data.actions ?? []
+      await prisma.actionsLog.create({
+        data: {
+          userId,
+          cardId,
+          agentRecommended: { actions: recommendedActions },
+          userAction: 'RECOMMENDATION',
+        },
+      })
+    }
   }
 
   return results

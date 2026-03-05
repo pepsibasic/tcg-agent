@@ -1,16 +1,18 @@
 import { prisma } from '@tcg/db'
 import { PortfolioSummaryLLMSchema } from '@tcg/schemas'
-import type { PortfolioSummaryResponse, PriceConfidence } from '@tcg/schemas'
+import type { PortfolioSummaryResponse, PriceConfidence, Action } from '@tcg/schemas'
 import { generateWithRetry } from '../llm/generate.js'
+import type { LLMLogger } from '../llm/generate.js'
 import { renderPrompt } from '../llm/prompts.js'
 import { wrapUserInput } from '../llm/sanitize.js'
 import { DEFAULT_LLM_CONFIG } from '../llm/types.js'
+import { computeVaultConversionCandidates } from '../rules/index.js'
 
 // ─── Return types ───────────────────────────────────────────────────────────
 
 type PortfolioSummarySuccess = {
   success: true
-  data: PortfolioSummaryResponse
+  data: PortfolioSummaryResponse & { vaultConversionCandidates: Action[] }
   degraded?: boolean
 }
 
@@ -52,7 +54,7 @@ function worstPriceConfidence(confidences: PriceConfidence[]): PriceConfidence {
  * 4. Success path: merge LLM output with DB-computed fields
  * 5. Degraded path: return DB-computed fields with narrative defaults
  */
-export async function summarizePortfolio(userId: string): Promise<PortfolioSummaryResult> {
+export async function summarizePortfolio(userId: string, logger?: LLMLogger): Promise<PortfolioSummaryResult> {
   // 1. Fetch all cards
   const [userCards, externalCards] = await Promise.all([
     prisma.userCard.findMany({
@@ -63,6 +65,19 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
       where: { userId, deletedAt: null },
     }),
   ])
+
+  // 1b. Compute vault conversion candidates from external cards
+  const externalCardInputs: import('../rules/types.js').ExternalCardInput[] = []
+  for (const ec of externalCards) {
+    externalCardInputs.push({
+      id: ec.id,
+      estimatedValue: ec.estimatedValue ? Number(ec.estimatedValue) : null,
+      priceConfidence: ec.priceConfidence as PriceConfidence,
+      certNumber: ec.certNumber,
+      cardName: ec.name,
+    })
+  }
+  const vaultConversionCandidates = computeVaultConversionCandidates(externalCardInputs)
 
   // 2. Compute DB-derived fields
 
@@ -147,6 +162,7 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
     system,
     config: DEFAULT_LLM_CONFIG,
     narrativeFields: ['recommendedActions', 'missingSetGoals'],
+    logger,
   })
 
   // 5. Success path: merge LLM output with DB-computed fields
@@ -160,6 +176,7 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
         breakdown: dbBreakdown,
         priceDataAsOf,
         priceConfidence: overallPriceConfidence,
+        vaultConversionCandidates,
       },
     }
   }
@@ -179,6 +196,7 @@ export async function summarizePortfolio(userId: string): Promise<PortfolioSumma
       recommendedActions: [],
       priceDataAsOf,
       priceConfidence: overallPriceConfidence,
+      vaultConversionCandidates,
     },
   }
 }
