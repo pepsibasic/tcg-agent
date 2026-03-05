@@ -17,4 +17,4 @@ RUN pnpm build
 FROM base AS runtime
 COPY --from=build /app /app
 EXPOSE 3000
-CMD ["sh", "-c", "npx prisma migrate deploy --schema packages/db/prisma/schema.prisma && node apps/api/dist/server.js"]
+CMD ["sh", "-c", "pnpm --filter @tcg/db exec prisma migrate deploy && node apps/api/dist/server.js"]
