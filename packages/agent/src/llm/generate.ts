@@ -4,6 +4,11 @@ import { scrubCompliance } from './compliance.js'
 import type { LLMProviderConfig, AnalysisFailure } from './types.js'
 import type { ComplianceViolation } from './compliance.js'
 
+export type LLMLogger = {
+  info: (obj: Record<string, unknown>, msg: string) => void
+  warn: (obj: Record<string, unknown>, msg: string) => void
+}
+
 export interface GenerateWithRetryOptions<T> {
   schema: z.ZodSchema<T>
   prompt: string
@@ -11,6 +16,8 @@ export interface GenerateWithRetryOptions<T> {
   config: LLMProviderConfig
   narrativeFields: string[]
   partialFallback?: Record<string, unknown>
+  logger?: LLMLogger
+  cardId?: string
 }
 
 export type GenerateWithRetryResult<T> =
@@ -41,14 +48,32 @@ export async function generateWithRetry<T>(
         `\n\nPrevious attempt failed validation. Error: ${truncatedError}\nPlease fix these issues and try again.`
     }
 
+    const startTime = Date.now()
     const result = await generateStructured({
       schema: options.schema,
       prompt: currentPrompt,
       system: options.system,
       config: options.config,
     })
+    const latencyMs = Date.now() - startTime
 
     if (result.success) {
+      if (options.logger) {
+        const logObj: Record<string, unknown> = {
+          card_id: options.cardId,
+          model: options.config.model,
+          attempts: attempt,
+          latency_ms: latencyMs,
+        }
+        const resultWithUsage = result as unknown as Record<string, unknown>
+        if (resultWithUsage['usage'] && typeof resultWithUsage['usage'] === 'object') {
+          const usage = resultWithUsage['usage'] as Record<string, unknown>
+          if (usage['promptTokens'] !== undefined) logObj['input_tokens'] = usage['promptTokens']
+          if (usage['completionTokens'] !== undefined) logObj['output_tokens'] = usage['completionTokens']
+        }
+        options.logger.info(logObj, 'llm_generation_success')
+      }
+
       const { data, violations } = scrubCompliance(
         result.data as Record<string, unknown>,
         options.narrativeFields
@@ -62,6 +87,31 @@ export async function generateWithRetry<T>(
     }
 
     lastError = result.failure.reason
+
+    if (options.logger) {
+      options.logger.warn(
+        {
+          card_id: options.cardId,
+          model: options.config.model,
+          attempt,
+          error_path: result.failure.reason.slice(0, 500),
+          raw_output_truncated: JSON.stringify(result.failure.partial).slice(0, 500),
+        },
+        'llm_validation_failure'
+      )
+    }
+  }
+
+  if (options.logger) {
+    options.logger.warn(
+      {
+        card_id: options.cardId,
+        model: options.config.model,
+        total_attempts: maxAttempts,
+        final_error: lastError.slice(0, 500),
+      },
+      'llm_generation_exhausted'
+    )
   }
 
   return {
