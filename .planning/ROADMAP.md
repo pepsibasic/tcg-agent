@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Rules Engine** - Deterministic card action eligibility and vault conversion logic (no LLM) (completed 2026-03-04)
 - [x] **Phase 3: LLM Layer** - LLM client, prompt templates, retry/fallback, compliance guard, and safety (completed 2026-03-04)
 - [x] **Phase 4: Agent Orchestrators and API** - End-to-end agent flows, all REST endpoints, and shareable identity (completed 2026-03-04)
-- [ ] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests
+- [x] **Phase 5: Observability, Hardening, and Testing** - Structured logs, actions audit, schema tests, and HTTP journey tests (completed 2026-03-05)
 
 ## Phase Details
 
@@ -103,7 +103,7 @@ Plans:
   4. Vitest unit tests for all Zod schemas pass with both valid and invalid inputs across all schema types
   5. Vitest unit tests for the rules engine cover all card states × action eligibility combinations with no failures
   6. Integration tests via HTTP verify all four MVP user journeys: pack pull → card analysis, external upload → portfolio appearance, portfolio summary request, and shareable archetype export
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 05-01-PLAN.md — Request ID propagation, structured logging, LLM diagnostics, and actions audit
@@ -121,7 +121,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
 | 2. Rules Engine | 3/3 | Complete   | 2026-03-04 |
 | 3. LLM Layer | 3/3 | Complete   | 2026-03-04 |
 | 4. Agent Orchestrators and API | 5/5 | Complete    | 2026-03-04 |
-| 5. Observability, Hardening, and Testing | 2/3 | In Progress|  |
+| 5. Observability, Hardening, and Testing | 3/3 | Complete   | 2026-03-05 |
 
 ---
 *Roadmap created: 2026-03-04*
