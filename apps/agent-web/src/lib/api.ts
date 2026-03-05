@@ -2,6 +2,8 @@ import type {
   CardAnalysisResponse,
   PortfolioSummaryResponse,
   ArchetypeResponse,
+  PriceHistoryResponse,
+  PortfolioChangesResponse,
   ApiErrorBody,
 } from './types'
 
@@ -97,5 +99,15 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(data),
     })
+  },
+
+  getPriceHistory(cardKey: string, range: '30d' | '90d' | '1y' = '30d') {
+    return apiFetch<PriceHistoryResponse>(
+      `/pricing/history/${encodeURIComponent(cardKey)}?range=${range}`
+    )
+  },
+
+  getPortfolioChanges(range: '7d' | '30d' = '7d') {
+    return apiFetch<PortfolioChangesResponse>(`/portfolio/changes?range=${range}`)
   },
 }

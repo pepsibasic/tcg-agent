@@ -140,6 +140,21 @@ model MarketplaceListing {
   @@map("marketplace_listings")
 }
 
+model CardPriceHistory {
+  id             String   @id @default(cuid())
+  cardKey        String
+  asOfDate       DateTime @db.Date
+  marketPriceUsd Float?
+  confidence     String   // HIGH|MEDIUM|LOW|NONE
+  source         String   // pricecharting|alt|seed
+  createdAt      DateTime @default(now())
+
+  @@unique([cardKey, asOfDate])
+  @@index([cardKey])
+  @@index([asOfDate])
+  @@map("card_price_history")
+}
+
 model ActionsLog {
   id               String   @id @default(uuid(7)) @db.Uuid
   userId           String   @db.Uuid

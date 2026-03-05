@@ -4,6 +4,7 @@ import { agentRoutes } from './routes/agent.js'
 import { externalCardRoutes } from './routes/external-cards.js'
 import { vaultRoutes } from './routes/vault.js'
 import { actionsRoutes } from './routes/actions.js'
+import { pricingRoutes } from './routes/pricing.js'
 
 const server = Fastify({
   logger: true,
@@ -24,6 +25,7 @@ server.register(agentRoutes)
 server.register(externalCardRoutes)
 server.register(vaultRoutes)
 server.register(actionsRoutes)
+server.register(pricingRoutes)
 
 const port = Number(process.env.PORT) || 3000
 

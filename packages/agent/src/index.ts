@@ -12,3 +12,5 @@ export * from './commentary/index.js'
 
 export { getCardPrice, clearPriceCache } from './services/pricing-service.js'
 export type { PriceData, PriceConfidenceLevel, PriceSource } from './services/pricing-service.js'
+
+export { runPriceSnapshot } from './jobs/snapshot-prices.js'

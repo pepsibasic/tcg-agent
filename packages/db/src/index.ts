@@ -8,5 +8,6 @@ export type {
   PackCard,
   MarketplaceListing,
   ActionsLog,
+  CardPriceHistory,
 } from './generated/client/index.js'
 export { CardState, PriceConfidence } from './generated/client/index.js'

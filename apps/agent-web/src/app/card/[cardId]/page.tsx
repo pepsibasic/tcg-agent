@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { api } from '@/lib/api'
 import { getDeepLink, getInlineMessage } from '@/lib/deep-links'
-import type { CardAnalysisResponse, ActionType } from '@/lib/types'
+import type { CardAnalysisResponse, ActionType, PriceHistoryResponse } from '@/lib/types'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { PageLoading } from '@/components/ui/loading'
 import { ModeBadge } from '@/components/portfolio/agent-notes'
+import { Sparkline } from '@/components/ui/sparkline'
 
 const confidenceColors: Record<string, string> = {
   HIGH: 'bg-green-100 text-green-800',
@@ -30,12 +31,16 @@ export default function CardDetailPage() {
   const [error, setError] = useState<string | null>(null)
   const [toast, setToast] = useState<string | null>(null)
   const [executingAction, setExecutingAction] = useState<string | null>(null)
+  const [priceHistory, setPriceHistory] = useState<PriceHistoryResponse | null>(null)
 
   useEffect(() => {
     async function load() {
       try {
         const data = await api.analyzeCard(params.cardId)
         setAnalysis(data)
+        // Fetch price history using card identity tags as card key (best effort)
+        const cardKey = data.identity_tags?.[0] || params.cardId
+        api.getPriceHistory(cardKey, '90d').then(setPriceHistory).catch(() => {})
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Failed to analyze card')
       } finally {
@@ -190,6 +195,34 @@ export default function CardDetailPage() {
             </span>
           </div>
         </Card>
+
+        {/* Price History */}
+        {priceHistory && priceHistory.points.length > 1 && (
+          <Card>
+            <h3 className="mb-3 text-sm font-semibold text-gray-900">Price History (90d)</h3>
+            <Sparkline points={priceHistory.points.map((p) => p.price_usd)} width={280} height={48} />
+            <div className="mt-3 flex gap-4 text-xs">
+              {priceHistory.change_1d != null && (
+                <span className={priceHistory.change_1d >= 0 ? 'text-green-600' : 'text-red-600'}>
+                  1d: {priceHistory.change_1d >= 0 ? '+' : ''}{(priceHistory.change_1d * 100).toFixed(1)}%
+                </span>
+              )}
+              {priceHistory.change_7d != null && (
+                <span className={priceHistory.change_7d >= 0 ? 'text-green-600' : 'text-red-600'}>
+                  7d: {priceHistory.change_7d >= 0 ? '+' : ''}{(priceHistory.change_7d * 100).toFixed(1)}%
+                </span>
+              )}
+              {priceHistory.change_30d != null && (
+                <span className={priceHistory.change_30d >= 0 ? 'text-green-600' : 'text-red-600'}>
+                  30d: {priceHistory.change_30d >= 0 ? '+' : ''}{(priceHistory.change_30d * 100).toFixed(1)}%
+                </span>
+              )}
+            </div>
+            <p className="mt-2 text-[10px] text-gray-400">
+              Last snapshot: {priceHistory.points[priceHistory.points.length - 1].as_of}
+            </p>
+          </Card>
+        )}
 
         {/* Reasoning */}
         {analysis.reasoning_bullets.length > 0 && (

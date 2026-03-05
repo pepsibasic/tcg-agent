@@ -1,7 +1,24 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { render, screen, waitFor, cleanup } from '@testing-library/react'
 
-const { mockPortfolio, mockArchetype } = vi.hoisted(() => ({
+const { mockPortfolio, mockArchetype, mockChanges, mockHistory } = vi.hoisted(() => ({
+  mockChanges: {
+    range: '7d' as const,
+    portfolio_value_today_usd: 5420,
+    portfolio_value_then_usd: 5000,
+    delta_usd: 420,
+    delta_pct: 0.084,
+    coverage_pct: 0.8,
+    top_movers: [{ card_key: 'Manga Luffy PSA10', title: 'Manga Luffy PSA10', delta_usd: 300, delta_pct: 0.136 }],
+  },
+  mockHistory: {
+    card_key: 'test',
+    range: '30d' as const,
+    points: [{ as_of: '2026-02-01', price_usd: 100 }, { as_of: '2026-03-01', price_usd: 120 }],
+    change_1d: 0.01,
+    change_7d: 0.05,
+    change_30d: 0.2,
+  },
   mockPortfolio: {
     userId: '0190f0e0-0001-7000-8000-000000000001',
     totalValueEst: 1250,
@@ -79,6 +96,8 @@ vi.mock('@/lib/api', () => ({
   api: {
     getPortfolioSummary: vi.fn().mockResolvedValue(mockPortfolio),
     getArchetype: vi.fn().mockResolvedValue(mockArchetype),
+    getPortfolioChanges: vi.fn().mockResolvedValue(mockChanges),
+    getPriceHistory: vi.fn().mockResolvedValue(mockHistory),
   },
 }))
 
@@ -176,6 +195,14 @@ describe('PortfolioPage', () => {
         screen.getAllByText('Sell back your top card').length
       ).toBeGreaterThanOrEqual(1)
     })
+  })
+
+  it('renders 7d change label in hero stats', async () => {
+    render(<PortfolioPage />)
+    await waitFor(() => {
+      expect(screen.getByText('Your Portfolio')).toBeInTheDocument()
+    })
+    expect(screen.getAllByText('7d Change').length).toBeGreaterThanOrEqual(1)
   })
 
   it('renders agent notes', async () => {

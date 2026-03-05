@@ -30,3 +30,20 @@ export type { PortfolioSummaryResponse, TopCard } from './api/portfolio-summary.
 
 export { ArchetypeResponseSchema } from './api/archetype.js'
 export type { ArchetypeResponse } from './api/archetype.js'
+
+export {
+  PriceHistoryRangeSchema,
+  PriceHistoryPointSchema,
+  PriceHistoryResponseSchema,
+  PortfolioChangesRangeSchema,
+  TopMoverSchema,
+  PortfolioChangesResponseSchema,
+} from './api/price-history.js'
+export type {
+  PriceHistoryRange,
+  PriceHistoryPoint,
+  PriceHistoryResponse,
+  PortfolioChangesRange,
+  TopMover,
+  PortfolioChangesResponse,
+} from './api/price-history.js'

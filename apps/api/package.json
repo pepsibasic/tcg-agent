@@ -9,7 +9,8 @@
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "dev": "tsx watch --env-file=../../.env src/server.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "job:snapshot-prices": "tsx --env-file=../../.env src/jobs/snapshot-prices.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",

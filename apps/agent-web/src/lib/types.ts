@@ -107,6 +107,37 @@ export interface ArchetypeResponse {
   share_card_badges: string[]
 }
 
+export interface PriceHistoryPoint {
+  as_of: string
+  price_usd: number | null
+}
+
+export interface PriceHistoryResponse {
+  card_key: string
+  range: '30d' | '90d' | '1y'
+  points: PriceHistoryPoint[]
+  change_1d?: number | null
+  change_7d?: number | null
+  change_30d?: number | null
+}
+
+export interface TopMover {
+  card_key: string
+  title: string
+  delta_usd: number
+  delta_pct: number | null
+}
+
+export interface PortfolioChangesResponse {
+  range: '7d' | '30d'
+  portfolio_value_today_usd: number
+  portfolio_value_then_usd: number | null
+  delta_usd: number | null
+  delta_pct: number | null
+  coverage_pct: number
+  top_movers: TopMover[]
+}
+
 export interface ApiErrorBody {
   error: {
     code: string
